@@ -19,10 +19,11 @@ body{margin:0;padding:0;}
 <body>
 <div id="root"></div>
 <script>
-window.onerror = function(msg, src, line) {
-  document.getElementById("root").innerHTML = '<div style="padding:20px;color:red;font-family:sans-serif"><b>Hata:</b> ' + msg + '<br>Satir: ' + line + '</div>';
+window.onerror = function(msg, src, line, col, err) {
+  document.getElementById("root").innerHTML = '<div style="padding:20px;color:red;font-family:sans-serif;font-size:14px"><b>HATA:</b><br>' + msg + '<br>Satir: ' + line + '<br>Kolon: ' + col + '<br>' + (err ? err.stack : '') + '</div>';
   return false;
 };
+try {
 var useState=React.useState;
 var useEffect=React.useEffect;
 var useRef=React.useRef;
@@ -916,6 +917,7 @@ tst?e("div",{style:{position:"fixed",bottom:24,left:"50%",transform:"translateX(
 var container=document.getElementById(“root”);
 var root=ReactDOM.createRoot(container);
 root.render(React.createElement(App));
+} catch(e) { document.getElementById(“root”).innerHTML = “<div style='padding:20px;color:red;font-size:14px'><b>JS HATA:</b><br>” + e.message + “<br>” + e.stack + “</div>”; }
 </script>
 
 </body>
