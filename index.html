@@ -3,973 +3,965 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Metro Saha">
 <title>Metro Saha</title>
+<script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="data.js"></script>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
-body{font-family:-apple-system,sans-serif;background:#0f172a;color:#1e293b;}
-.nav{background:#1e3a5f;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.nav-title{color:#fff;font-weight:800;font-size:16px;}
-.nav-sub{color:rgba(255,255,255,.5);font-size:10px;}
-.nav-logo{background:#fff;color:#1e3a5f;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-right:10px;}
-.tabs{background:#fff;border-bottom:2px solid #e2e8f0;display:flex;overflow-x:auto;position:sticky;top:56px;z-index:99;}
-.tab{padding:11px 14px;font-size:11px;font-weight:700;color:#64748b;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;}
-.tab.active{color:#1e3a5f;border-bottom-color:#1e3a5f;}
-.content{padding:14px;max-width:700px;margin:0 auto;}
-.card{background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:14px;margin-bottom:8px;}
-.card-red{border-color:#fca5a5;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat-num{font-size:24px;font-weight:800;line-height:1;margin-bottom:2px;}
-.stat-label{font-size:10px;color:#64748b;text-transform:uppercase;}
-.badge{display:inline-block;padding:2px 6px;border-radius:20px;font-size:9px;font-weight:700;text-transform:uppercase;white-space:nowrap;}
-.musteri-kart{background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;}
-.musteri-ikon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
-.musteri-ad{font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.musteri-alt{font-size:11px;color:#64748b;margin-top:1px;}
-.musteri-borc{text-align:right;flex-shrink:0;font-family:monospace;font-weight:700;font-size:12px;}
-.btn{font-family:inherit;font-weight:700;font-size:13px;padding:10px 18px;border-radius:9px;border:none;cursor:pointer;display:inline-flex;align-items:center;}
-.btn-primary{background:#1e3a5f;color:#fff;}
-.btn-ghost{background:transparent;border:1.5px solid #e2e8f0;color:#64748b;font-size:11px;padding:6px 12px;}
-.btn-small{font-size:11px;padding:6px 12px;}
-.btn-full{width:100%;justify-content:center;}
-.input{font-family:inherit;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;color:#1e293b;font-size:16px;padding:10px 13px;width:100%;outline:none;}
-.label{font-size:11px;color:#64748b;font-weight:700;margin-bottom:5px;display:block;}
-.fg{margin-bottom:12px;}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center;}
-.modal{background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 36px;width:100%;max-width:700px;max-height:88vh;overflow-y:auto;}
-.modal-handle{width:40px;height:4px;background:#e2e8f0;border-radius:20px;margin:0 auto 18px;}
-.modal-title{font-size:18px;font-weight:800;margin-bottom:16px;}
-.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e2e8f0;font-size:13px;}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:28px;font-weight:700;font-size:13px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap;pointer-events:none;color:#fff;}
-.progress{background:#f8fafc;border-radius:20px;height:5px;overflow:hidden;margin-top:8px;}
-.progress-bar{height:100%;border-radius:20px;background:#1e3a5f;}
-.arama{position:relative;margin-bottom:10px;}
-.arama input{padding-left:34px;}
-.arama-ikon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#64748b;}
-.hidden{display:none;}
-.flex{display:flex;}
-.gap8{gap:8px;}
-.gap6{gap:6px;}
-.flex-wrap{flex-wrap:wrap;}
-.items-center{align-items:center;}
-.justify-between{justify-content:space-between;}
-.mb10{margin-bottom:10px;}
-.mb12{margin-bottom:12px;}
-.mb14{margin-bottom:14px;}
-.f11{font-size:11px;}
-.f13{font-size:13px;}
-.fw700{font-weight:700;}
-.text-muted{color:#64748b;}
-.text-red{color:#c1121f;}
-.text-orange{color:#e9a020;}
-.text-blue{color:#1e3a5f;}
-.bg-red-light{background:#fef2f2;}
-.bg-blue-light{background:#eff6ff;}
-.rota-num{width:28px;height:28px;border-radius:7px;background:#1e3a5f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
-select.input{-webkit-appearance:none;}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box;}
+body{margin:0;padding:0;}
 </style>
 </head>
 <body>
-<div id="app"></div>
-
+<div id="root"></div>
 <script>
-// ============ VERİ ============
-var MUSTERILER = [{"id":"1000730721","ad":"M\u0130SO GIDA LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":7497.52,"salesYTD":231850.14,"mtdFark":-58321.23,"focusNonFocus":"Non Focus"},{"id":"1100103459","ad":"BARI\u015e B\u00dcFE \u0130\u015eL. LTD.\u015eT\u0130.","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":1181955.88,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":1178589.77,"salesYTD":10049016.78,"mtdFark":254201.53,"focusNonFocus":"Focus"},{"id":"1100106951","ad":"ZA\u0130N RESTORAN KAFE \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 SAN.T\u0130C","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100108908","ad":"VAGABOND","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":2586.05,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100112825","ad":"BEKAN GIDA REST H\u0130ZM TUR SAN T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":11592.97,"salesYTD":58946.51,"mtdFark":8383.6,"focusNonFocus":"Non Focus"},{"id":"1100115885","ad":"B\u00dcY\u00dcK KUL\u00dcP DERNE\u011e\u0130","adres":"","brans":"Restoran","bransDetay":"Sosyal Tesis Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":138676.43,"salesYTD":779229.33,"mtdFark":25117.28,"focusNonFocus":"Non Focus"},{"id":"1100116150","ad":"HAN TUR \u0130\u015eLET T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":12911.44,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100125361","ad":"\u00c7ALI\u015eKAN SU \u00dcR\u00dcNLER\u0130 GIDA \u0130N\u015eAAT VE DI\u015e","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":128281.62,"salesYTD":1424598.37,"mtdFark":97849.72,"focusNonFocus":"Focus"},{"id":"1100133549","ad":"T\u00dcRK BALIKADAMLAR SPOR KUL..\u0130KT.\u0130\u015eLT.","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100133763","ad":"DOYUM KEBAP N\u0130HAT DEM\u0130RAL","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":3917.3,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100136248","ad":"8494 KAFE GIDA BOTAN\u0130K TUR.","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":39343.18,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":38953.64,"salesYTD":260994.08,"mtdFark":20252.39,"focusNonFocus":"Focus"},{"id":"1100136510","ad":"M\u0130NA GID.TUR. T\u0130C.LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":69096.88,"salesYTD":658252.29,"mtdFark":33872.76,"focusNonFocus":"Focus"},{"id":"1100137884","ad":"G\u00dcNALAN TUR\u0130ZM VE \u0130N\u015e GIDA SAN T\u0130C LTD","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13377.18,"salesYTD":21565.31,"mtdFark":8374.66,"focusNonFocus":"Non Focus"},{"id":"1100144411","ad":"META PROJECT GIDA REST.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":8689.13,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13869.43,"salesYTD":144640.4,"mtdFark":6431.2,"focusNonFocus":"Non Focus"},{"id":"1100146671","ad":"K\u0130MCO DANI\u015eMANLIK VE GAST. LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":28883.73,"totalOverdue":28883.73,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":122066.42,"mtdFark":-11604.4,"focusNonFocus":"Non Focus"},{"id":"1100146912","ad":"EY\u0130MUTAF LAHMACUN VE GIDA \u00dcR\u00dcNLER\u0130 TUR\u0130Z","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100148623","ad":"PESCA GIDA T\u0130C. LTD.\u015eT\u0130.","adres":"","brans":"Bar/Meyhane","bransDetay":"Bar / Gece Kul\u00fcb\u00fc","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":20195.47,"salesYTD":229967.45,"mtdFark":20195.47,"focusNonFocus":"Non Focus"},{"id":"1100150468","ad":"\u0130L PADR\u0130NO R\u0130STORANTE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":77414.9,"salesYTD":1018207.14,"mtdFark":40433.26,"focusNonFocus":"Non Focus"},{"id":"1100152462","ad":"KIZILKAYALAR HAMBURGER GIDA \u0130N\u015eAAT TUR","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":46331.15,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100153681","ad":"ATLANT\u0130KO TUR.GID. LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-141.58,"focusNonFocus":"Non Focus"},{"id":"1100156414","ad":"ART CAFE GIDA. \u00dcR\u00dcN","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":5221.09,"mtdFark":-5039.59,"focusNonFocus":"Non Focus"},{"id":"1100158541","ad":"SEBU Y\u0130YECEK \u0130\u00c7ECEK VE ORGAN\u0130ZASYON","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":5799.33,"mtdFark":-99040.11,"focusNonFocus":"Non Focus"},{"id":"1100164825","ad":"FOODF\u0130N GIDA SANAY\u0130T\u0130CARET LMT.\u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100166158","ad":"RAW GIDA SANAY\u0130 T\u0130CARET L\u0130M","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":3369.15,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100167424","ad":"COFFEE MASTER GIDA TUR\u0130ZM","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":104829.88,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":167018.55,"salesYTD":1321841.86,"mtdFark":54112.39,"focusNonFocus":"Focus"},{"id":"1100170149","ad":"D\u0130BEK PASTACILIK VE GIDA T\u0130CARET LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":48521.75,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100179102","ad":"SUAD\u0130YE HOTEL TUR SAN T\u0130C A\u015e","adres":"","brans":"Otel","bransDetay":"4 Star Hotels with Restaurant","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":44090.79,"salesYTD":630064.98,"mtdFark":5648.29,"focusNonFocus":"Focus"},{"id":"1100180870","ad":"KOM\u015eU EV YEMEKLER\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100181508","ad":"JERF\u0130 CAFE RESTAURANT SAN VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100182536","ad":"PROC\u0130ST \u0130LET\u0130\u015e\u0130M TEKNOLOJ\u0130LER\u0130 SAN VE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":76039.55,"totalOverdue":49631.85,"vade":30,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":26146.24,"salesYTD":546922.87,"mtdFark":-23660.49,"focusNonFocus":"Focus"},{"id":"1100183098","ad":"REMZ\u0130 K\u0130TABEV\u0130 NE\u015e.SAN.T\u0130C.A.\u015e","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":2547.36,"salesYTD":49756.41,"mtdFark":-585.69,"focusNonFocus":"Non Focus"},{"id":"1100185865","ad":"GR\u00d6N ALKIM GIDA TUR\u0130ZM REKLAM T\u0130C .L\u0130M.\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":266050.93,"salesYTD":1219011.54,"mtdFark":145587.66,"focusNonFocus":"Focus"},{"id":"1100192497","ad":"J BURGER B\u00dcLENT SOLMAZ","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":47062.28,"salesYTD":507988.51,"mtdFark":-28319.88,"focusNonFocus":"Focus"},{"id":"1100192598","ad":"CADDE CAFE TURZ SAN T\u0130C LTD \u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":141440.89,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":154197.73,"salesYTD":1323931.66,"mtdFark":-37710.97,"focusNonFocus":"Focus"},{"id":"1100200157","ad":"\u0130STEK \u0130STANBUL E\u011e\u0130T\u0130M H\u0130ZM A.\u015e","adres":"","brans":"Restoran","bransDetay":"Sosyal Tesis Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":3670.03,"salesYTD":78688.97,"mtdFark":3670.03,"focusNonFocus":"Non Focus"},{"id":"1100200338","ad":"DEM ORGAN\u0130ZASYON","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":2831225.02,"mtdFark":-3136.57,"focusNonFocus":"Focus"},{"id":"1100201547","ad":"THE VERT\u0130CAL GIDA \u00dcR\u00dcNLER\u0130 VE TUR.A.\u015e.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":8,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100204984","ad":"\u0130BRAH\u0130M \u00d6ZHASAR","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":45657.99,"salesYTD":334340.97,"mtdFark":27405.99,"focusNonFocus":"Focus"},{"id":"1100208554","ad":"PINARCI TUR.\u0130N\u015e LTD.\u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":64722.03,"totalOverdue":15345.41,"vade":30,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":68039.0,"salesYTD":491198.75,"mtdFark":58733.37,"focusNonFocus":"Non Focus"},{"id":"1100215001","ad":"ST\u00dcDYO TAG SANAT TUR\u0130ZM \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 A\u015e","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":121434.42,"salesYTD":1199889.53,"mtdFark":57587.66,"focusNonFocus":"Focus"},{"id":"1100215421","ad":"AS\u00d6ZBAY OTO \u0130N\u015e GID REK EML TEM MAL \u0130TH","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":29458.37,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":82853.9,"salesYTD":995709.53,"mtdFark":4999.64,"focusNonFocus":"Focus"},{"id":"1100215614","ad":"HAMLE RESTAURANT \u0130\u015eLETMEC\u0130L\u0130K VE TUR LTD","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":42489.47,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":35667.55,"salesYTD":429746.29,"mtdFark":35667.55,"focusNonFocus":"Focus"},{"id":"1100222823","ad":"TAR\u0130H\u0130 TENCEREK\u00d6FTEC\u0130S\u0130","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":124506.72,"salesYTD":236265.65,"mtdFark":88599.74,"focusNonFocus":"Non Focus"},{"id":"1100226790","ad":"\u00dc\u00c7ER SEVG\u0130L\u0130 NE\u015eE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-34266.58,"focusNonFocus":"Non Focus"},{"id":"1100227561","ad":"ZD SA\u011eLIK H\u0130ZMETLER\u0130 ESTET\u0130K","adres":"","brans":"Kurumsal Mutfak","bransDetay":"\u0130\u015fletme Mutfa\u011f\u0131 - Personel Say\u0131s\u0131 10-100 Aras\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":1190.04,"salesYTD":114294.03,"mtdFark":-17778.54,"focusNonFocus":"Non Focus"},{"id":"1100228993","ad":"YEN\u0130 HAYAT UNLU MAM SAN T\u0130C LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":24495.35,"salesYTD":55077.37,"mtdFark":24495.35,"focusNonFocus":"Non Focus"},{"id":"1100265526","ad":"KAKAOM PASTACILIK GID.UNL","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5355.53,"salesYTD":49058.95,"mtdFark":-23967.38,"focusNonFocus":"Non Focus"},{"id":"1100266547","ad":"\u00d6MER TANRIOVER CEM TAN AD\u0130 ORT.","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":41709.52,"mtdFark":-21398.45,"focusNonFocus":"Focus"},{"id":"1100284790","ad":"DEHA TUR,GIDA SAN.ve T\u0130C. LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":16579.11,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100284799","ad":"VAKIF TEN\u0130S CAFE TUFAN \u00d6MER \u00d6ZGENLER","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":8,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100290313","ad":"HAYRETT\u0130N KONUK","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":16345.15,"mtdFark":-10169.56,"focusNonFocus":"Non Focus"},{"id":"1100295610","ad":"AP GIDA TUR\u0130ZM SPORT\u0130F H\u0130ZMETLER VE","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":12948.21,"salesYTD":24720.68,"mtdFark":12948.21,"focusNonFocus":"Non Focus"},{"id":"1100403968","ad":"ENON TEKST\u0130L SANAY\u0130 VE T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":29443.23,"salesYTD":133975.81,"mtdFark":21952.16,"focusNonFocus":"Non Focus"},{"id":"1100413183","ad":"ATADAN DANI\u015eMANLIK OTO K\u0130RALAMA","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":152626.35,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":150022.03,"salesYTD":1109971.06,"mtdFark":19056.2,"focusNonFocus":"Focus"},{"id":"1100423907","ad":"UNIVERSAL OTEL MALZEMELER\u0130 GIDA SAN. T\u0130C","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":101542.18,"totalOverdue":62699.72,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":38039.97,"salesYTD":413763.11,"mtdFark":8773.61,"focusNonFocus":"Focus"},{"id":"1100426030","ad":"MERT PASTACILIK EKMEK\u00c7\u0130L\u0130K","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":18659.05,"salesYTD":95920.25,"mtdFark":12660.53,"focusNonFocus":"Non Focus"},{"id":"1100432614","ad":"AL\u0130PAP\u0130LA GIDA. SAN. VE T\u0130C.L\u0130M. A.\u015e","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":3279.17,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5715.52,"salesYTD":115786.46,"mtdFark":5715.52,"focusNonFocus":"Non Focus"},{"id":"1100436989","ad":"MERKAN TUR\u0130ZM GID","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":22744.5,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":97205.92,"salesYTD":1005558.71,"mtdFark":-34602.96,"focusNonFocus":"Focus"},{"id":"1100436995","ad":"KR\u0130ZANTEN KAFE REST \u0130\u015eL SAN VE T\u0130C LTD","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":9791.46,"mtdFark":-31497.34,"focusNonFocus":"Non Focus"},{"id":"1100437423","ad":"POYRAZ RESTAURANT OZAN BAYDAR","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":112271.77,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":120096.18,"salesYTD":938602.68,"mtdFark":84259.49,"focusNonFocus":"Focus"},{"id":"1100438559","ad":"OLU\u015eUM RESTAURANT H\u0130ZM SAN VE T\u0130C LTD","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":12122.8,"salesYTD":216892.84,"mtdFark":-7621.18,"focusNonFocus":"Focus"},{"id":"1100443841","ad":"ABBAS WAFFLE","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":65152.4,"mtdFark":-22943.26,"focusNonFocus":"Non Focus"},{"id":"1100443971","ad":"GEKA GIDA RESTORAN \u0130\u015eLETMELER\u0130 SANAY\u0130 VE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":14989.4,"mtdFark":-13641.85,"focusNonFocus":"Non Focus"},{"id":"1100446712","ad":"NAZLI AKANIL","adres":"","brans":"Kurumsal Mutfak","bransDetay":"Caterers","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":160387.28,"salesYTD":274886.92,"mtdFark":124936.47,"focusNonFocus":"Non Focus"},{"id":"1100448716","ad":"H.S\u0130NAN ERYENT\u00dcR VE","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100450098","ad":"AKAL GIDA ELEKTRON\u0130K OTO \u0130N\u015e TUR SAN T\u0130C","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":30580.3,"salesYTD":131722.59,"mtdFark":28726.05,"focusNonFocus":"Non Focus"},{"id":"1100450907","ad":"ARKAN BALIK\u00c7ILIK ORG TUR.LTD.\u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":67362.34,"salesYTD":605341.8,"mtdFark":20377.63,"focusNonFocus":"Focus"},{"id":"1100458400","ad":"M\u0130S\u0130NA REST TURZ GIDA SAN VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":347393.32,"salesYTD":2490568.37,"mtdFark":55180.34,"focusNonFocus":"Focus"},{"id":"1100475818","ad":"\u0130LHAM\u0130 AHMET \u00d6RNEKAL \u0130LK","adres":"","brans":"Kurumsal Mutfak","bransDetay":"Okul Mutfaklar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":401.6,"mtdFark":-8821.83,"focusNonFocus":"Non Focus"},{"id":"1100485186","ad":"\u0130STANBUL CRAFT CAFE TUR VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100492000","ad":"BTK RESTAURANT SAN.T\u0130C.LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":24961.65,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100494257","ad":"GLOBUS TUR\u0130ZM YATIRIMLARI VE YOLCU TA\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":12408.23,"totalOverdue":12408.23,"vade":1,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":17369.91,"salesYTD":324992.6,"mtdFark":-27001.76,"focusNonFocus":"Non Focus"},{"id":"1100495891","ad":"ANTEB\u0130 RESTAURANT \u0130\u015eL SAN VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":856285.49,"salesYTD":5707764.37,"mtdFark":271872.24,"focusNonFocus":"Focus"},{"id":"1100498734","ad":"BOLMARK TUR\u0130ZM YATIRIMLARI A\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":15446.44,"totalOverdue":15446.44,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":52289.2,"mtdFark":-35433.22,"focusNonFocus":"Non Focus"},{"id":"1100501651","ad":"CAN P\u0130ZZA GIDA VE TURZ A.\u015e.","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5790.96,"salesYTD":57552.59,"mtdFark":-11509.64,"focusNonFocus":"Non Focus"},{"id":"1100510984","ad":"PAZAR Y\u0130YECEK \u0130\u00c7ECEK ORGAN\u0130ZASYON","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":160627.9,"totalOverdue":160627.9,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":535601.69,"mtdFark":-53570.45,"focusNonFocus":"Focus"},{"id":"1100511471","ad":"BROSS MEHMET \u00d6RG\u00dcC\u00dc","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":27258.86,"totalOverdue":27258.86,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":26891.55,"salesYTD":227652.68,"mtdFark":-20931.24,"focusNonFocus":"Focus"},{"id":"1100511965","ad":"OKAN CA GIDA SAN VE TUR DI\u015e T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":68254.9,"salesYTD":339362.07,"mtdFark":68254.9,"focusNonFocus":"Non Focus"},{"id":"1100523361","ad":"SUPERMOM KAFE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":38520.2,"salesYTD":303126.22,"mtdFark":1626.67,"focusNonFocus":"Non Focus"},{"id":"1100526648","ad":"MKN RESTORAN H\u0130Z LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":280423.07,"totalOverdue":280423.07,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":1631777.46,"mtdFark":0.0,"focusNonFocus":"Focus"},{"id":"1100526829","ad":"YUSUF CHEF","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100527526","ad":"GOLD TOWER TUR \u0130N\u015e SAN T\u0130C A.\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":39218.24,"totalOverdue":39218.24,"vade":30,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":473456.11,"mtdFark":0.0,"focusNonFocus":"Focus"},{"id":"1100528143","ad":"ENG\u0130N KESK\u0130NEL","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":2837.76,"salesYTD":11748.75,"mtdFark":2837.76,"focusNonFocus":"Non Focus"},{"id":"1100528465","ad":"\u0130K\u0130D GIDA SAN VE T\u0130C A\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":30634.25,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":64710.06,"salesYTD":837384.58,"mtdFark":-80235.75,"focusNonFocus":"Focus"},{"id":"1100530150","ad":"EYVAN P\u0130DE LAHMACUN SEDAT AKTUN\u00c7 VE","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":15955.54,"salesYTD":98910.24,"mtdFark":13801.53,"focusNonFocus":"Non Focus"},{"id":"1100545333","ad":"DRINK GIDA SANAYI VE T\u0130C. A.\u015e.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":90729.91,"totalOverdue":13306.04,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":24508.41,"salesYTD":1201585.65,"mtdFark":-82217.31,"focusNonFocus":"Focus"},{"id":"1100545829","ad":"AFC TOSTA GIDA SANAY\u0130 T\u0130C LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":1643.04,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100545834","ad":"HASBAY GIDA SAN LTD ST\u0130","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":17573.38,"salesYTD":48725.56,"mtdFark":17573.38,"focusNonFocus":"Non Focus"},{"id":"1100546521","ad":"FLAN GIDA KAFE TUC LTD ST\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":2906.77,"salesYTD":343401.57,"mtdFark":-104696.45,"focusNonFocus":"Focus"},{"id":"1100548147","ad":"ROJDA DEM\u0130RER OYUNCULUK VE GIDA","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":21534.65,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":28847.08,"salesYTD":222998.34,"mtdFark":-7166.86,"focusNonFocus":"Focus"},{"id":"1100548902","ad":"V\u0130A SANDV\u0130\u00c7","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-5648.07,"focusNonFocus":"Non Focus"},{"id":"1100549607","ad":"AKAL GIDA ELEK.OTO.\u0130N\u015e.TUR.","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":66707.46,"mtdFark":-10875.36,"focusNonFocus":"Focus"},{"id":"1100552678","ad":"BULTE GIDA TUR PAZ SAN VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":94895.58,"salesYTD":818545.55,"mtdFark":94895.58,"focusNonFocus":"Non Focus"},{"id":"1100555012","ad":"PRO FITABLE INVESTMENT HAR \u0130N\u015e MED GID","adres":"","brans":"Kurumsal Mutfak","bransDetay":"\u0130\u015fletme Mutfa\u011f\u0131 - Personel Say\u0131s\u0131 10-100 Aras\u0131","tel":"","borc":1359665.91,"totalOverdue":1359665.91,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13635.53,"salesYTD":8519684.64,"mtdFark":-331830.16,"focusNonFocus":"Focus"},{"id":"1100555580","ad":"ANANAS TUR GID VE \u0130N\u015e SAN T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":198712.99,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":125244.04,"salesYTD":1447225.76,"mtdFark":-31812.51,"focusNonFocus":"Focus"},{"id":"1100557551","ad":"TONO TUR\u0130ZM A.\u015e.","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":4870.54,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":21853.11,"salesYTD":196309.49,"mtdFark":-30836.99,"focusNonFocus":"Focus"},{"id":"1100558100","ad":"MANK\u0130ND TUR\u0130ZM GIDA SAN.T\u0130C.LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":26097.88,"totalOverdue":11598.41,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":38595.25,"salesYTD":138011.61,"mtdFark":33812.7,"focusNonFocus":"Non Focus"},{"id":"1100559202","ad":"BARBEK\u00dc TUR.ORG.GIDA \u0130\u015eL. SAN. VE","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":5167.3,"totalOverdue":5167.3,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":25626.18,"salesYTD":96913.7,"mtdFark":19618.62,"focusNonFocus":"Non Focus"},{"id":"1100559239","ad":"HAS GRUP GIDA TURZ.\u0130N\u015e.","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":51193.67,"salesYTD":454435.34,"mtdFark":4828.31,"focusNonFocus":"Focus"},{"id":"1100559379","ad":"BO\u0130TE GIDA \u0130\u015eLETMELER\u0130 SAN.T\u0130C.LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":108511.1,"mtdFark":-11159.35,"focusNonFocus":"Focus"},{"id":"1100559895","ad":"NEZ\u0130H GIDA \u0130N\u015e. SAN. VE T\u0130C.LTD.\u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":18508.68,"mtdFark":-9246.54,"focusNonFocus":"Focus"},{"id":"1100560351","ad":"HAN G\u0130R\u0130\u015e\u0130MC\u0130L\u0130K GIDA TUR.OTEL SAN VE","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":15618.66,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":15446.6,"salesYTD":92621.1,"mtdFark":-5517.34,"focusNonFocus":"Non Focus"},{"id":"1100561328","ad":"NOKTA LOKANTA T\u0130C LTD ST\u0130 NOKTA LOKANTA","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":307249.05,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":182372.4,"salesYTD":1319610.45,"mtdFark":138898.32,"focusNonFocus":"Focus"},{"id":"1100562100","ad":"SAVOR YEME \u0130\u00c7ME GIDA A\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":12805.3,"salesYTD":88881.84,"mtdFark":8934.87,"focusNonFocus":"Non Focus"},{"id":"1100596343","ad":"EK\u0130NC\u0130LER FAST FOOD GIDA SAN T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":191971.92,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":191356.79,"salesYTD":864563.76,"mtdFark":191356.79,"focusNonFocus":"Focus"},{"id":"1100620373","ad":"BOS GRUP TUR\u0130ZM GIDA \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 SAN","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-6019.16,"focusNonFocus":"Non Focus"},{"id":"1100620469","ad":"LA PLAGE RESTORANT GIDA ANON\u0130M \u015e\u0130T","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":18022.82,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":26380.83,"salesYTD":309253.46,"mtdFark":26380.83,"focusNonFocus":"Non Focus"},{"id":"1100620560","ad":"BEAGRUP TUR\u0130ZM","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":42992.51,"totalOverdue":31677.07,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":69782.84,"salesYTD":307003.98,"mtdFark":55330.99,"focusNonFocus":"Non Focus"},{"id":"1100620584","ad":"DSR KAFE RESTORAN TUR\u0130ZM \u0130N\u015e.SAN.T\u0130C.\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":41740.37,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100620588","ad":"LE MAJUN GIDA T\u0130CARET L\u0130M\u0130TED \u015eT\u0130.","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":10481.47,"salesYTD":55871.16,"mtdFark":5245.26,"focusNonFocus":"Non Focus"},{"id":"1100620945","ad":"BDR GIDA SANAY\u0130 T\u0130CARET L\u0130M\u0130TED \u015e\u0130RKET","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":18942.82,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":37479.91,"salesYTD":324505.13,"mtdFark":29637.05,"focusNonFocus":"Focus"},{"id":"1100621712","ad":"EFEHAN ATAK TUR\u0130ZM SAN VE T\u0130C","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13360.33,"salesYTD":74346.22,"mtdFark":13360.33,"focusNonFocus":"Non Focus"},{"id":"1100622175","ad":"ZEHRA DARTAR","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":373426.97,"mtdFark":-28061.19,"focusNonFocus":"Non Focus"},{"id":"1100622196","ad":"BROS ARK GRUP","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":57665.17,"mtdFark":-47937.69,"focusNonFocus":"Non Focus"},{"id":"1100623203","ad":"EMAR RESTORAN \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 LM\u0130TED \u015e\u0130R","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":16926.44,"salesYTD":143427.56,"mtdFark":16926.44,"focusNonFocus":"Non Focus"},{"id":"1100623288","ad":"ZEYNEP ARAZ G\u00dcZEL\u0130\u015e","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":18509.03,"salesYTD":162438.44,"mtdFark":18509.03,"focusNonFocus":"Non Focus"},{"id":"1100623396","ad":"BAEZ GIDA SANAY\u0130 T\u0130CARET ANON\u0130M \u015e\u0130RKET","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":39403.99,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100624481","ad":"ACARSAL KAFE \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100624978","ad":"ALWAYS KAFE RESTORAN \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 SAN","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":228018.66,"totalOverdue":124402.58,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":99770.0,"salesYTD":619921.64,"mtdFark":99770.0,"focusNonFocus":"Non Focus"},{"id":"1100625308","ad":"H\u0130VE GIDA DANI\u015eMANLIK SANAY\u0130 T\u0130C L\u0130MTE","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100625309","ad":"AL\u0130 EFE B\u0130LG\u0130C\u0130 MEYTMATE","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":13320.23,"totalOverdue":13320.23,"vade":1,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":13153.54,"salesYTD":194609.94,"mtdFark":13153.54,"focusNonFocus":"Focus"},{"id":"1100625722","ad":"MARTI KOZMET\u0130K GIDA SANAY\u0130 T\u0130CARET L\u0130M","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":474268.35,"mtdFark":0.0,"focusNonFocus":"Focus"},{"id":"1100625953","ad":"NUR\u0130YE YET\u0130KSOY BAKRAKTAR","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":3722.41,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100626457","ad":"LUMO GIDA SANAY\u0130 T\u0130CARET L\u0130M\u0130TED \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":99334.68,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100626856","ad":"BOOKS COFFEE GIDA VE TUR\u0130ZM VE T\u0130C L\u0130M","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100626883","ad":"GO THRU TUR\u0130ZM GIDA E\u011eLENCE H\u0130Z SAN. T","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":74335.25,"totalOverdue":51862.33,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":106291.67,"salesYTD":656154.74,"mtdFark":106291.67,"focusNonFocus":"Focus"},{"id":"1100626885","ad":"HOOPS SPOR H\u0130ZMETLER\u0130 GIDA \u0130N\u015e SAN VE","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":157331.7,"totalOverdue":113256.87,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":43433.19,"salesYTD":695787.8,"mtdFark":43433.19,"focusNonFocus":"Focus"},{"id":"1100627956","ad":"MET\u0130N M\u0130MARLIK \u0130N\u015eAAT SANAY\u0130 VE T\u0130CARET","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13242.4,"salesYTD":88539.58,"mtdFark":13242.4,"focusNonFocus":"Non Focus"},{"id":"1100627970","ad":"TORREFACTO","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":671.95,"salesYTD":24310.61,"mtdFark":671.95,"focusNonFocus":"Non Focus"},{"id":"1100627986","ad":"OR CEM GIDA \u0130\u015eL VE TUR T\u0130C LMT \u015eT\u0130G","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":124964.71,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100628558","ad":"D\u0130LAY K\u00dc\u00c7\u00dcK","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":177021.2,"salesYTD":712052.83,"mtdFark":177021.2,"focusNonFocus":"Non Focus"},{"id":"1100629641","ad":"CADDEBOSTAN YERFISTI\u011eI GIDA  TUR.\u0130N\u015eOT","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100630418","ad":"NEZ\u0130H GIDA SANAY\u0130 VE T\u0130CARET ANON\u0130M \u015e\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":36447.37,"salesYTD":187227.25,"mtdFark":36447.37,"focusNonFocus":"Non Focus"},{"id":"1100630527","ad":"KHALKEDON \u00d6ZFIRINCI AD\u0130 ORTAKLI\u011eI","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100630531","ad":"SEG SPORT\u0130F H\u0130ZMETLER \u0130N\u015eAAT VE GIDA T","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":62759.2,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":137999.52,"salesYTD":1005750.67,"mtdFark":137999.52,"focusNonFocus":"Non Focus"},{"id":"1100630593","ad":"BODO TUR. \u0130\u00c7 VE DI\u015e T\u0130C. LTD. \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":38775.86,"salesYTD":191042.48,"mtdFark":38775.86,"focusNonFocus":"Non Focus"},{"id":"1100631701","ad":"NOTH GIDA SAN. VE T\u0130C. LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":3361.58,"totalOverdue":3361.58,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":3328.3,"salesYTD":17252.57,"mtdFark":3328.3,"focusNonFocus":"Non Focus"},{"id":"1100631780","ad":"ZERAS TEKST\u0130L GIDA T\u0130CARET L\u0130M\u0130TED \u015e\u0130R","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100632009","ad":"MARMARA YELKEN SPOR KUL\u00dcB\u00dc \u0130KT\u0130SAD\u0130 \u0130\u015e","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":39968.03,"totalOverdue":39968.03,"vade":1,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":38279.1,"salesYTD":58913.26,"mtdFark":38279.1,"focusNonFocus":"Non Focus"},{"id":"1100632235","ad":"BRUV GIDA T\u0130CARET ANON\u0130M \u015e\u0130RKET\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":59035.22,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":58260.05,"salesYTD":58260.05,"mtdFark":58260.05,"focusNonFocus":"Non Focus"},{"id":"1100632249","ad":"BARI\u015e YILMAZ","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":56619.53,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":56058.94,"salesYTD":56058.94,"mtdFark":56058.94,"focusNonFocus":"Non Focus"},{"id":"1100632250","ad":"LEYLA KAD\u0130RO\u011eLU TEK\u0130N","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":68838.59,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":67364.53,"salesYTD":67364.53,"mtdFark":67364.53,"focusNonFocus":"Non Focus"},{"id":"1100632394","ad":"NAZENDE ORGAN\u0130ZASYON VE GIDA \u0130\u015eLETMEC\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100703065","ad":"7 GIDA ANON\u0130M \u015e\u0130RKET\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":1685402.11,"totalOverdue":1088227.91,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":589935.15,"salesYTD":4740817.97,"mtdFark":351099.78,"focusNonFocus":"Focus"},{"id":"1100703724","ad":"BERKAY GEN\u00c7O\u011eLU","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":4909.71,"mtdFark":-12923.88,"focusNonFocus":"Non Focus"},{"id":"1100703751","ad":"LC P\u0130ZZA GIDA SANAY\u0130 VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":9168.84,"salesYTD":38345.93,"mtdFark":-1246.39,"focusNonFocus":"Non Focus"},{"id":"1100704488","ad":"PR\u0130MOS DE COLOMB\u0130A KAHVE MAM GID TUR \u0130N\u015e","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-2563.62,"focusNonFocus":"Non Focus"},{"id":"1100704846","ad":"ASBAR GIDA TUR T\u0130C VE LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":50228.37,"salesYTD":708110.58,"mtdFark":29539.28,"focusNonFocus":"Focus"},{"id":"1100705035","ad":"SANT GIDA TUR SAN VE T\u0130C A\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":34215.57,"totalOverdue":34215.57,"vade":30,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":619601.15,"mtdFark":-199914.36,"focusNonFocus":"Focus"},{"id":"1100705595","ad":"NAZAS GIDA LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":550.31,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100706616","ad":"M\u0130THRA GIDA VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":54330.64,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":96786.98,"salesYTD":733799.98,"mtdFark":46058.49,"focusNonFocus":"Focus"},{"id":"1100707196","ad":"BALIKADAMLAR RESTAURANT \u0130\u015eLET LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100708334","ad":"V\u0130TELL\u0130 COFFEE SHOP","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100708842","ad":"3E CADDE RESTORAN \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 ANON\u0130M","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":33954.48,"salesYTD":256392.76,"mtdFark":33954.48,"focusNonFocus":"Non Focus"},{"id":"1100709726","ad":"ONEM GIDA \u0130TH \u0130HR LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100710249","ad":"AY\u00c7A B\u0130LD\u0130K","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":2953.67,"salesYTD":39908.8,"mtdFark":2953.67,"focusNonFocus":"Non Focus"},{"id":"1100710526","ad":"TUES GIDA SAN VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":286657.64,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":238881.37,"salesYTD":1087068.11,"mtdFark":237960.57,"focusNonFocus":"Non Focus"},{"id":"1100710710","ad":"EMRE \u00c7OLAK/ROOTS&SHOTS","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":4920.26,"totalOverdue":4920.26,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":13454.54,"salesYTD":34240.96,"mtdFark":13454.54,"focusNonFocus":"Non Focus"},{"id":"1100711284","ad":"BU\u011eRA \u00c7APUTLU VE I\u015eIL \u00c7APUTLU AD\u0130","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":13890.24,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":21167.25,"salesYTD":240975.94,"mtdFark":2171.34,"focusNonFocus":"Focus"},{"id":"1100711756","ad":"SON PARA\u015e\u00dcT KAFE RESTORAN TUR\u0130ZM \u0130THALAT","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":26205.41,"salesYTD":308858.82,"mtdFark":-19645.18,"focusNonFocus":"Focus"},{"id":"1100711872","ad":"GERGEDAN REST H\u0130ZMETLER\u0130 VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":17133.89,"totalOverdue":0.0,"vade":10,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":214846.73,"salesYTD":1470973.71,"mtdFark":68116.66,"focusNonFocus":"Focus"},{"id":"1100712083","ad":"BROYT EMLAK \u0130N\u015e ORG VE TUR LTD \u015eT\u0130","adres":"","brans":"Otel","bransDetay":"Butik Oteller Restoranl\u0131","tel":"","borc":17889.6,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":71623.8,"salesYTD":273560.67,"mtdFark":48252.52,"focusNonFocus":"Focus"},{"id":"1100712173","ad":"ENVA\u0130 DANI\u015eMANLIK GIDA ORGAN\u0130ZASYON","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":32228.14,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":31065.3,"salesYTD":325626.87,"mtdFark":12470.62,"focusNonFocus":"Focus"},{"id":"1100713335","ad":"PARKER KAFE LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":115093.29,"mtdFark":-7808.34,"focusNonFocus":"Non Focus"},{"id":"1100713475","ad":"MAKUZA GIDA T\u0130CARET VE SANAY\u0130 LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":23474.32,"salesYTD":46373.65,"mtdFark":23474.32,"focusNonFocus":"Non Focus"},{"id":"1100713614","ad":"ORB\u0130S COFFEE ERD\u0130N\u00c7 KURNAZ","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":25355.98,"salesYTD":85614.24,"mtdFark":25355.98,"focusNonFocus":"Non Focus"},{"id":"1100714239","ad":"CADDE 303 RESTORAN \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 ANON\u0130M","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":19626.5,"mtdFark":-5036.41,"focusNonFocus":"Non Focus"},{"id":"1100714459","ad":"\u015eULE \u0130Y\u0130B\u0130L\u0130R B\u0130LG\u0130C\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":26105.45,"salesYTD":263659.66,"mtdFark":-3449.51,"focusNonFocus":"Non Focus"},{"id":"1100714809","ad":"ADI \u015eAHANE BORULDAY TUR\u0130ZM \u0130N\u015eAAT LTD \u015eT","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":15060.44,"salesYTD":52186.32,"mtdFark":15060.44,"focusNonFocus":"Non Focus"},{"id":"1100714894","ad":"ENES CO\u015eKUN","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":9,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100715709","ad":"\u00d6NSEL \u0130\u015eLETMEC\u0130L\u0130K GID SAN T\u0130C","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":10600.63,"totalOverdue":10600.63,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":41363.18,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100715742","ad":"BANKO CADDE YEMEK SANAY\u0130 VE T\u0130C A\u015e","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":1657.09,"salesYTD":117765.0,"mtdFark":-1733.33,"focusNonFocus":"Non Focus"},{"id":"1100715790","ad":"VERO GELATO DONDURMA \u0130MALAT LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5093.09,"salesYTD":73058.65,"mtdFark":-9550.9,"focusNonFocus":"Non Focus"},{"id":"1100716636","ad":"ED\u0130NBURGER GID PAZ VE T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":52976.85,"salesYTD":529154.19,"mtdFark":6043.8,"focusNonFocus":"Focus"},{"id":"1100716695","ad":"EBRU D\u00dcNDAR","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":2457.3,"salesYTD":5322.55,"mtdFark":-1674.82,"focusNonFocus":"Non Focus"},{"id":"1100717402","ad":"AKS\u0130MCADDE GIDA TUR\u0130ZM T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":372664.03,"mtdFark":-53327.85,"focusNonFocus":"Focus"},{"id":"1100717578","ad":"B\u0130NB\u0130R CAFE REST GIDA TUR T\u0130C","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":10209.81,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100717948","ad":"AT\u0130K KUYUMCULUK OTOMAT\u0130V HAYVANCILIK","adres":"","brans":"Restoran","bransDetay":"Kebap Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":44417.13,"salesYTD":389130.94,"mtdFark":-38528.74,"focusNonFocus":"Non Focus"},{"id":"1100718419","ad":"K4 BOTAN\u0130K AKSESUAR VE GIDA SANAY\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":30830.44,"totalOverdue":17750.88,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":54824.84,"salesYTD":541642.46,"mtdFark":-60441.68,"focusNonFocus":"Focus"},{"id":"1100718957","ad":"3 MONKEY BURGER","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100719196","ad":"TACOROLL GIDA SANAY\u0130 T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-33329.6,"focusNonFocus":"Non Focus"},{"id":"1100720655","ad":"S\u00d6ZB\u0130Z\u0130M GIDA  ANON\u0130M \u015e\u0130RKET\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":19175.88,"salesYTD":39583.61,"mtdFark":11256.15,"focusNonFocus":"Non Focus"},{"id":"1100720944","ad":"\u0130NPOL GIDA VE TUR\u0130ZM TEKST\u0130L \u0130N\u015eAAT","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100721742","ad":"MONA CAKE ATEL\u0130ER","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100722278","ad":"F\u0130T HAUS GIDA VE T\u0130CARET L\u0130M\u0130TED \u015e\u0130RKET\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":272344.36,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":269241.27,"salesYTD":991211.74,"mtdFark":107767.63,"focusNonFocus":"Focus"},{"id":"1100722282","ad":"MONOSUN GIDA SAN VE T\u0130C A\u015e","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":11068.57,"salesYTD":150011.8,"mtdFark":-42591.42,"focusNonFocus":"Focus"},{"id":"1100722448","ad":"HOMESTEAD COFFEE GIDA H\u0130ZMETLER\u0130 VE","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":1674.9,"salesYTD":25401.03,"mtdFark":-1742.25,"focusNonFocus":"Non Focus"},{"id":"1100722525","ad":"ALPELA GIDA SANAY\u0130 VE T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100722580","ad":"TB\u0130 GIDA Y\u0130YECEK \u0130\u00c7ECEK OTOMOT\u0130V \u0130N\u015e SAN","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":37685.38,"totalOverdue":7960.75,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":29430.33,"salesYTD":143500.87,"mtdFark":7350.29,"focusNonFocus":"Focus"},{"id":"1100723378","ad":"HZK N\u0130TEL\u0130KL\u0130 E\u011e\u0130T\u0130M LTD \u015eT\u0130","adres":"","brans":"Kurumsal Mutfak","bransDetay":"\u0130\u015fletme Mutfa\u011f\u0131 - Personel Say\u0131s\u0131 10-100 Aras\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100724077","ad":"TUN\u00c7 GURME BALIK SANAY\u0130 VE T\u0130CARET","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":16790.29,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":56046.09,"salesYTD":1465464.06,"mtdFark":45829.37,"focusNonFocus":"Focus"},{"id":"1100724420","ad":"SALKER KAFE \u0130\u015eLETMELER\u0130 GIDA TUR\u0130ZM","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":3777.35,"salesYTD":51833.56,"mtdFark":-11105.13,"focusNonFocus":"Non Focus"},{"id":"1100724854","ad":"MEL\u0130HA KU\u015eKONDURMAZ","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":21637.24,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100725500","ad":"LEYA RESTORAN GIDA TUR\u0130ZM SANAY\u0130 VE","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":27550.5,"salesYTD":635012.96,"mtdFark":-28190.74,"focusNonFocus":"Focus"},{"id":"1100726122","ad":"EMD GAYR\u0130MENKUL YATIRIM TUR\u0130ZM GIDA","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":3824.34,"totalOverdue":3824.34,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":7572.96,"salesYTD":118999.81,"mtdFark":7572.96,"focusNonFocus":"Non Focus"},{"id":"1100726541","ad":"3A KURUMSAL GIDA ANON\u0130M \u015e\u0130RKET\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":72592.52,"salesYTD":871446.11,"mtdFark":39924.51,"focusNonFocus":"Non Focus"},{"id":"1100727513","ad":"TURANLAR RED GIDA SANAY\u0130 VE T\u0130CARET","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":30407.06,"salesYTD":351304.15,"mtdFark":12596.25,"focusNonFocus":"Non Focus"},{"id":"1100727592","ad":"RED TURAN GIDA TUR\u0130ZM SANAY\u0130 VE T\u0130CARET","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":25276.4,"salesYTD":332119.07,"mtdFark":24374.08,"focusNonFocus":"Non Focus"},{"id":"1100727965","ad":"NURCAN G\u00dcRSOY","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":20768.53,"totalOverdue":20768.53,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":89185.56,"mtdFark":-21388.85,"focusNonFocus":"Non Focus"},{"id":"1100728463","ad":"SUNAM GIDA SANAY\u0130 VE T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100729333","ad":"VAR GRUPS GIDA \u0130N\u015eAAT T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":53893.34,"mtdFark":-6394.94,"focusNonFocus":"Non Focus"},{"id":"1100730442","ad":"MORKO\u00c7 BALIK\u00c7ILLIK GIDA TUR\u0130ZM SANAY\u0130 VE","adres":"","brans":"Restoran","bransDetay":"Fish Restaurants","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":47076.33,"salesYTD":278650.98,"mtdFark":26142.22,"focusNonFocus":"Non Focus"},{"id":"1100730707","ad":"KLASTIR GIDA TURZ\u0130M H\u0130ZMETLER\u0130 L\u0130M\u0130TED","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":4530.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100730892","ad":"BOVASTOCK \u0130\u00c7 VE DI\u015e T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":26474.68,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":25918.67,"salesYTD":343515.67,"mtdFark":-3083.98,"focusNonFocus":"Focus"},{"id":"1100731673","ad":"M\u0130TTS RESTORAN GIDA ORGAN\u0130ZASYON","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100732537","ad":"LUNE GIDA SANAY\u0130 T\u0130CARET L\u0130M\u0130TED \u015e\u0130RKET\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":-13002.56,"focusNonFocus":"Non Focus"},{"id":"1100732827","ad":"CEM KAHVE GIDA SANAY\u0130 VE T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100733276","ad":"POV\u0130ST GIDA SANAY\u0130 T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":18656.98,"salesYTD":96282.7,"mtdFark":829.67,"focusNonFocus":"Non Focus"},{"id":"1100734281","ad":"THEO GIDA SANAY\u0130 VE T\u0130CARET L\u0130M\u0130TED","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":17482.49,"salesYTD":118368.94,"mtdFark":532.86,"focusNonFocus":"Non Focus"},{"id":"1100735632","ad":"MUD\u0130 GRUP GIDA SAN. VE T\u0130C. LTD. \u015eT\u0130","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":687.88,"salesYTD":84359.34,"mtdFark":687.88,"focusNonFocus":"Non Focus"},{"id":"1100743469","ad":"\u00d6ZFIRINCI GIDA SANAY\u0130 DANI\u015eMANLIK","adres":"","brans":"Restoran","bransDetay":"Lokantalar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5818.93,"salesYTD":121601.98,"mtdFark":5818.93,"focusNonFocus":"Non Focus"},{"id":"1100749365","ad":"POMO RESTORAN VE DANI\u015eMANLIK H\u0130ZMETLER\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":22661.19,"salesYTD":247996.52,"mtdFark":22661.19,"focusNonFocus":"Non Focus"},{"id":"1100888030","ad":"D\u0130LAY STEAK HOUSE GIDA \u0130THALAT","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"1100890237","ad":"BARYE LOKANTA \u0130\u015eLETMEC\u0130L\u0130\u011e\u0130 RESTORAN","adres":"","brans":"Fast Food","bransDetay":"Fast Food B\u00fcfeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":71255.99,"salesYTD":355382.13,"mtdFark":49791.06,"focusNonFocus":"Focus"},{"id":"1400707335","ad":"VEFALI K\u00d6FTEC\u0130 GIDA \u00dcR\u00dcNLER\u0130 SAN T\u0130C LTD","adres":"","brans":"Restoran","bransDetay":"Et/ Tavuk/ K\u00f6fte Restoranlar\u0131","tel":"","borc":170254.19,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":167482.69,"salesYTD":1686111.07,"mtdFark":63889.78,"focusNonFocus":"Focus"},{"id":"2300100596","ad":"AR\u0130GOTA KAFE VE DANI\u015eMALIK H\u0130ZMETLER\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":1965.52,"salesYTD":102328.08,"mtdFark":-38397.22,"focusNonFocus":"Focus"},{"id":"2300110517","ad":"F\u0130YONK CAFE \u00d6ZGE TEKER","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":37719.98,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":36911.52,"salesYTD":286043.4,"mtdFark":5867.99,"focusNonFocus":"Focus"},{"id":"2300710015","ad":"FAMA COFFEE CO KAHVEC\u0130L\u0130K OTOMOT\u0130V","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":3436.27,"salesYTD":83969.96,"mtdFark":-9590.4,"focusNonFocus":"Non Focus"},{"id":"3100705436","ad":"A\u0130DA UNLU MAMULLER VE RESTORAN SANAY\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":9551.57,"totalOverdue":9551.57,"vade":10,"borcTarihi":"2026-03-24","blocking":2,"konum":5,"sonZiyaret":"","salesMTD":8954.26,"salesYTD":137442.31,"mtdFark":5591.8,"focusNonFocus":"Non Focus"},{"id":"3300139596","ad":"KEYF\u0130N GIDA SANAY\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":9,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":0.0,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"3300166101","ad":"HAPPY BAKERS UNLU MAMULLER","adres":"","brans":"Kafe/Pastane","bransDetay":"Pastaneler / Dondurmac\u0131lar","tel":"","borc":63361.72,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":61728.27,"salesYTD":488608.07,"mtdFark":35361.73,"focusNonFocus":"Non Focus"},{"id":"3300704195","ad":"AMALF\u0130 GROUP GIDA SAN.T\u0130C.A.\u015e.","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":179.2,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":4965.82,"salesYTD":19093.94,"mtdFark":4965.82,"focusNonFocus":"Non Focus"},{"id":"3300705264","ad":"LORCA COFFEE SUNAY SOYLU","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":10111.55,"mtdFark":0.0,"focusNonFocus":"Non Focus"},{"id":"8300103245","ad":"CAS GIDA T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":0.0,"salesYTD":74329.3,"mtdFark":-16502.66,"focusNonFocus":"Non Focus"},{"id":"8300700664","ad":"MOLA FIRIN GID LTD \u015eT\u0130","adres":"","brans":"Kafe/Pastane","bransDetay":"Kafeler","tel":"","borc":0,"totalOverdue":0,"vade":30,"borcTarihi":"","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":14687.26,"salesYTD":172261.8,"mtdFark":8283.55,"focusNonFocus":"Non Focus"},{"id":"8300701065","ad":"KUL\u00dcP GIDA REST \u0130\u015eL DI\u015e T\u0130C LTD \u015eT\u0130","adres":"","brans":"Restoran","bransDetay":"Global Mutfaklar","tel":"","borc":5615.01,"totalOverdue":0.0,"vade":30,"borcTarihi":"2026-03-24","blocking":0,"konum":5,"sonZiyaret":"","salesMTD":5559.42,"salesYTD":146589.76,"mtdFark":-9859.9,"focusNonFocus":"Non Focus"}];
+var useState=React.useState;
+var useEffect=React.useEffect;
+var useRef=React.useRef;
+window.storage={
+  set:function(k,v){return new Promise(function(res){try{localStorage.setItem(k,v);res({key:k,value:v});}catch(e){res(null);}});},
+  get:function(k){return new Promise(function(res){try{var v=localStorage.getItem(k);res(v?{key:k,value:v}:null);}catch(e){res(null);}});}
+};
 
-// ============ YARDIMCI ============
-var BRANS_BG = {"Restoran":"#fde8e2","Kafe/Pastane":"#fef3d8","Fast Food":"#ffe8e8","Otel":"#dceaf3","Bar/Meyhane":"#ede5f8","Kurumsal Mutfak":"#d8f3dc"};
-var BRANS_C = {"Restoran":"#e76f51","Kafe/Pastane":"#e9a020","Fast Food":"#d62828","Otel":"#1e3a5f","Bar/Meyhane":"#6d4c9e","Kurumsal Mutfak":"#1a472a"};
-var BRANS_ICO = {"Restoran":"FR","Kafe/Pastane":"KF","Fast Food":"FF","Otel":"OT","Bar/Meyhane":"BR","Kurumsal Mutfak":"KM"};
-var KH = {herkes:["Restoran","Kafe/Pastane","Fast Food","Otel","Bar/Meyhane","Kurumsal Mutfak"],alkol:["Bar/Meyhane","Otel","Restoran"],kahve:["Kafe/Pastane","Otel","Kurumsal Mutfak"],mutfak:["Restoran","Kurumsal Mutfak","Otel","Fast Food"],otel:["Otel"],fastfood:["Fast Food","Restoran"]};
-var GUNLER = ["Pazar","Pazartesi","Sali","Carsamba","Persembe","Cuma","Cumartesi"];
+var PARTS = METRO_DATA;
 
-function today(){return new Date().toISOString().split("T")[0];}
-function fTarih(d){if(!d)return"-";var p=d.split("-");return p[2]+"."+p[1]+"."+p[0];}
-function fPara(n){return Number(n||0).toLocaleString("tr-TR")+" TL";}
+function getData() {
+var all = [];
+for (var i = 0; i < PARTS.length; i++) {
+var arr = JSON.parse(atob(PARTS[i]));
+for (var j = 0; j < arr.length; j++) all.push(arr[j]);
+}
+return all;
+}
+
+var BB={“Restoran”:”#fde8e2”,“Kafe/Pastane”:”#fef3d8”,“Fast Food”:”#ffe8e8”,“Otel”:”#dceaf3”,“Bar/Meyhane”:”#ede5f8”,“Kurumsal Mutfak”:”#d8f3dc”};
+var BC={“Restoran”:”#e76f51”,“Kafe/Pastane”:”#e9a020”,“Fast Food”:”#d62828”,“Otel”:”#1e3a5f”,“Bar/Meyhane”:”#6d4c9e”,“Kurumsal Mutfak”:”#1e3a5f”};
+var KH={herkes:[“Restoran”,“Kafe/Pastane”,“Fast Food”,“Otel”,“Bar/Meyhane”,“Kurumsal Mutfak”],alkol:[“Bar/Meyhane”,“Otel”,“Restoran”],kahve:[“Kafe/Pastane”,“Otel”,“Kurumsal Mutfak”],mutfak:[“Restoran”,“Kurumsal Mutfak”,“Otel”,“Fast Food”],otel:[“Otel”],fastfood:[“Fast Food”,“Restoran”]};
+var GUNLER=[“Pazar”,“Pazartesi”,“Sali”,“Carsamba”,“Persembe”,“Cuma”,“Cumartesi”];
+var ICO={“Restoran”:“FR”,“Kafe/Pastane”:“KF”,“Fast Food”:“FF”,“Otel”:“OT”,“Bar/Meyhane”:“BR”,“Kurumsal Mutfak”:“KM”};
+
+function today(){return new Date().toISOString().split(“T”)[0];}
+function fTarih(d){if(!d)return”-”;var p=d.split(”-”);return p[2]+”.”+p[1]+”.”+p[0];}
+function fPara(n){return Number(n||0).toLocaleString(“tr-TR”)+” TL”;}
 function gunFarki(t){return t?Math.floor((new Date()-new Date(t))/86400000):999;}
 
 function borcDurum(m){
-    if(!m.borc||m.borc===0) return "yok";
-    if(!m.borcTarihi) return "ok";
-    var v=new Date(m.borcTarihi);
-    v.setDate(v.getDate()+(Number(m.vade)||30));
-    return v<new Date()?"gecikme":"ok";
+if(!m.borc||m.borc===0)return”yok”;
+if(!m.borcTarihi)return”ok”;
+var v=new Date(m.borcTarihi);
+v.setDate(v.getDate()+(Number(m.vade)||30));
+return v<new Date()?“gecikme”:“ok”;
 }
 function gecGun(m){
-    if(!m.borcTarihi) return 0;
-    var v=new Date(m.borcTarihi);
-    v.setDate(v.getDate()+(Number(m.vade)||30));
-    return Math.max(0,Math.floor((new Date()-v)/86400000));
+if(!m.borcTarihi)return 0;
+var v=new Date(m.borcTarihi);
+v.setDate(v.getDate()+(Number(m.vade)||30));
+return Math.max(0,Math.floor((new Date()-v)/86400000));
+}
+function kacGunKaldi(m){
+if(!m.borcTarihi||!m.borc)return 999;
+var v=new Date(m.borcTarihi);
+v.setDate(v.getDate()+(Number(m.vade)||30));
+return Math.floor((v-new Date())/86400000);
 }
 function blokInfo(b){
-    if(b===2) return {l:"Tahsilat",bg:"#fef2f2",c:"#c1121f"};
-    if(b===8||b===9) return {l:"Bloke",bg:"#fef3d8",c:"#e9a020"};
-    return null;
+if(b===2)return{l:“Tahsilat”,bg:”#ffe5e7”,c:”#c1121f”};
+if(b===8||b===9)return{l:“Bloke”,bg:”#fef3d8”,c:”#e9a020”};
+return null;
+}
+function mPuan(m,ro,ms){
+var p=0,ks=ro.map(function(r){var x=ms.find(function(x){return x.id===r.mid;});return x?x.konum:5;});
+var ort=ks.length?ks.reduce(function(a,b){return a+b;},0)/ks.length:5;
+p+=Math.max(0,10-Math.abs((Number(m.konum)||5)-ort)*2);
+if(borcDurum(m)===“gecikme”)p+=30;else if(m.borc>0)p+=10;
+if(m.blocking===2)p+=25;
+var g=gunFarki(m.sonZiyaret);
+if(g>14)p+=20;else if(g>7)p+=10;else if(g>3)p+=5;
+if([“Bar/Meyhane”,“Otel”,“Restoran”].indexOf(m.brans)>=0)p+=10;
+if(m.salesMTD>100000)p+=20;else if(m.salesMTD>50000)p+=15;else if(m.salesMTD>10000)p+=10;else if(m.salesMTD>0)p+=5;
+return p;
+}
+function saveData(k,v){
+try{
+localStorage.setItem(k,JSON.stringify(v));
+}catch(e){
+try{window.storage.set(k,JSON.stringify(v));}catch(e2){}
+}
+}
+function loadData(k,fb,cb){
+try{
+var ls=localStorage.getItem(k);
+if(ls){cb(JSON.parse(ls));return;}
+}catch(e){}
+try{
+window.storage.get(k).then(function(r){cb(r?JSON.parse(r.value):fb);}).catch(function(){cb(fb);});
+}catch(e){cb(fb);}
 }
 
-function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-function load(k,fb){try{var v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch(e){return fb;}}
+function App(){
+var [ms,setMs]=useState([]);
+var [ks,setKs]=useState([]);
+var [ro,setRo]=useState([]);
+var [zs,setZs]=useState([]);
+var [pg,setPg]=useState(“o”);
+var [aid,setAid]=useState(null);
+var [mod,setMod]=useState(null);
+var [tw,setTw]=useState({wa:””,yuz:””});
+var [tm,setTm]=useState(“wa”);
+var [rp,setRp]=useState(“hafta”);
+var [fb,setFb]=useState(””);
+var [fbo,setFbo]=useState(“hepsi”);
+var [sq,setSq]=useState(””);
+var [rotaSira,setRotaSira]=useState(“puan”);
+var [ozFilter,setOzFilter]=useState(null);
+var [af,setAf]=useState({adres:””,tel:””,konum:“5”});
+var [zf,setZf]=useState({sonuc:“siparis”,tutar:””,not:””});
+var [bf,setBf]=useState({mid:””,borc:””,vade:“30”});
+var [kf,setKf]=useState({urun:””,normal:””,kamp:””,kat:“herkes”,brans:“herkes”,tarih:””,acik:””});
+var [mf,setMf]=useState({ad:””,adres:””,brans:“Restoran”,tel:””,konum:“5”});
+var [tst,setTst]=useState(null);
+var [yedekMetin,setYedekMetin]=useState(””);
+var [iceMetin,setIceMetin]=useState(””);
+var tRef=useRef(null);
+var fileRef=useRef(null);
 
-// ============ DURUM ============
-var S = {
-    ms: load("m9_m", MUSTERILER),
-    ks: load("m9_k", [
-        {id:"K001",urun:"Zeytinyagi 5L",normalFiyat:480,kampFiyat:390,kategori:"herkes",brans:"herkes",tarih:"",aciklama:"%19 indirim"},
-        {id:"K002",urun:"Sarap Kasa",normalFiyat:1800,kampFiyat:1450,kategori:"alkol",brans:"Bar/Meyhane",tarih:"",aciklama:"Ozel fiyat"},
-        {id:"K003",urun:"Espresso 5kg",normalFiyat:650,kampFiyat:520,kategori:"kahve",brans:"Kafe/Pastane",tarih:"",aciklama:"Premium"}
-    ]),
-    ro: load("m9_r", []),
-    zs: load("m9_z", []),
-    pg: "o",
-    mod: null,
-    aid: null,
-    sq: "",
-    fb: "",
-    fbo: "hepsi",
-    rotaSira: "puan",
-    af: {adres:"",tel:"",konum:"5"},
-    zf: {sonuc:"siparis",tutar:"",not:""},
-    bf: {mid:"",borc:"",vade:"30"},
-    kf: {urun:"",normal:"",kamp:"",kat:"herkes",brans:"herkes",tarih:"",acik:""},
-    mf: {ad:"",adres:"",brans:"Restoran",tel:"",konum:"5"},
-    yedekMetin: "",
-    borcMetin: "",
-    iceMetin: "",
-    tst: null
+function adresSablonIndir(){
+var satirlar=[“Musteri No,Musteri Adi,Adres,Telefon,Konum (1-10)”];
+ms.forEach(function(m){
+satirlar.push([
+m.id,
+(m.ad||””).replace(new RegExp(”,”,“g”),” “),
+(m.adres||””).replace(new RegExp(”,”,“g”),” “),
+(m.tel||””),
+m.konum||5
+].join(”,”));
+});
+var csv=“﻿”+satirlar.join(”\n”);
+var blob=new Blob([csv],{type:“text/csv;charset=utf-8;”});
+var url=URL.createObjectURL(blob);
+var a=document.createElement(“a”);
+a.href=url;a.download=“metro_adresler.csv”;
+document.body.appendChild(a);a.click();document.body.removeChild(a);
+URL.revokeObjectURL(url);
+showT(“Sablon indirildi!”);
+}
+
+function adresYukle(e){
+var file=e.target.files[0];if(!file)return;
+var reader=new FileReader();
+reader.onload=function(ev){
+try{
+var text=ev.target.result.replace(/\r/g,””);
+var lines=text.split(”\n”);
+if(lines.length<2){showT(“Dosya bos!”,true);return;}
+var headers=lines[0].split(”,”).map(function(h){return h.trim().toLowerCase();});
+var noIdx=headers.findIndex(function(h){return h.includes(“no”);});
+var adrIdx=headers.findIndex(function(h){return h.includes(“adres”);});
+var telIdx=headers.findIndex(function(h){return h.includes(“tel”);});
+var konIdx=headers.findIndex(function(h){return h.includes(“konum”);});
+if(adrIdx<0){showT(“Adres kolonu bulunamadi!”,true);return;}
+var updates={};
+for(var i=1;i<lines.length;i++){
+var cols=lines[i].split(”,”);
+if(cols.length<2)continue;
+var musNo=noIdx>=0?cols[noIdx].trim():””;
+var adres=adrIdx>=0?cols[adrIdx].trim():””;
+var tel=telIdx>=0?cols[telIdx].trim():””;
+var konum=konIdx>=0?parseInt(cols[konIdx])||5:5;
+if(musNo)updates[musNo]={adres:adres,tel:tel,konum:konum};
+}
+var updated=0;
+var yeni=ms.map(function(m){
+var upd=updates[String(m.id)];
+if(upd&&upd.adres){updated++;return Object.assign({},m,upd);}
+return m;
+});
+sMs(yeni);
+showT(updated+” musteri adresi guncellendi!”);
+}catch(err){showT(“Hata: “+err.message,true);}
 };
-
-function sMs(v){S.ms=v;save("m9_m",v);render();}
-function sKs(v){S.ks=v;save("m9_k",v);render();}
-function sRo(v){S.ro=v;save("m9_r",v);render();}
-function sZs(v){S.zs=v;save("m9_z",v);render();}
-var tRef;
-function showT(msg,err){
-    S.tst={msg:msg,err:!!err};render();
-    clearTimeout(tRef);
-    tRef=setTimeout(function(){S.tst=null;render();},2500);
-}
-
-// ============ RENDER ============
-function h(tag,attrs,children){
-    var el=document.createElement(tag);
-    if(attrs) for(var k in attrs){
-        if(k==="onclick") el.onclick=attrs[k];
-        else if(k==="oninput") el.oninput=attrs[k];
-        else if(k==="onchange") el.onchange=attrs[k];
-        else if(k==="className") el.className=attrs[k];
-        else if(k==="style") el.style.cssText=attrs[k];
-        else if(k==="value"&&(tag==="input"||tag==="textarea"||tag==="select")) el.value=attrs[k];
-        else if(k==="placeholder") el.placeholder=attrs[k];
-        else if(k==="type") el.type=attrs[k];
-        else if(k==="min") el.min=attrs[k];
-        else if(k==="max") el.max=attrs[k];
-        else if(k==="rows") el.rows=attrs[k];
-        else if(k==="readOnly") el.readOnly=attrs[k];
-        else if(k==="accept") el.accept=attrs[k];
-        else if(k==="multiple") el.multiple=attrs[k];
-        else el.setAttribute(k,attrs[k]);
-    }
-    if(children){
-        if(!Array.isArray(children)) children=[children];
-        children.forEach(function(c){
-            if(c===null||c===undefined||c===false) return;
-            if(typeof c==="string"||typeof c==="number") el.appendChild(document.createTextNode(c));
-            else el.appendChild(c);
-        });
-    }
-    return el;
-}
-function div(cls,children,attrs){return h("div",Object.assign({className:cls||""},attrs||{}),children);}
-function span(cls,txt){return h("span",{className:cls||""},[txt]);}
-function btn(txt,onclick,cls){return h("button",{className:"btn "+(cls||"btn-primary"),onclick:onclick},[txt]);}
-
-function badge(brans,small){
-    var b=h("span",{className:"badge"},[brans]);
-    b.style.background=BRANS_BG[brans]||"#eee";
-    b.style.color=BRANS_C[brans]||"#555";
-    if(small) b.style.fontSize="9px";
-    return b;
-}
-
-function musteriKart(m,onclick){
-    var bd=borcDurum(m);
-    var brc=bd==="gecikme"?"#c1121f":bd==="ok"?"#e9a020":"#64748b";
-    var bl=blokInfo(m.blocking);
-    var kart=div("musteri-kart");
-    if(bl) kart.style.borderColor=bl.c;
-    kart.onclick=onclick;
-
-    var ikon=div("musteri-ikon");
-    ikon.style.background=BRANS_BG[m.brans]||"#eee";
-    ikon.style.color=BRANS_C[m.brans]||"#555";
-    ikon.textContent=BRANS_ICO[m.brans]||"?";
-
-    var info=div("",null,{style:"flex:1;min-width:0;"});
-    var ad=div("musteri-ad",[m.ad]);
-    var alt=div("musteri-alt",[(m.bransDetay||m.brans)+" | MTD:"+fPara(m.salesMTD)]);
-    var badges=div("",null,{style:"margin-top:4px;display:flex;gap:3px;flex-wrap:wrap;"});
-    badges.appendChild(badge(m.brans,true));
-    if(bl){var bs=h("span",{className:"badge",style:"background:"+bl.bg+";color:"+bl.c},[bl.l]);badges.appendChild(bs);}
-    if(m.focusNonFocus==="Focus"){var bf=h("span",{className:"badge",style:"background:#d8f3dc;color:#1a472a"},["Focus"]);badges.appendChild(bf);}
-    info.appendChild(ad);info.appendChild(alt);info.appendChild(badges);
-
-    kart.appendChild(ikon);kart.appendChild(info);
-
-    if(m.borc>0){
-        var borc=div("musteri-borc",null,{style:"color:"+brc});
-        borc.appendChild(h("div",{},[fPara(m.borc)]));
-        borc.appendChild(h("div",{style:"font-size:10px;color:"+brc+";margin-top:1px"},[bd==="gecikme"?gecGun(m)+" gun":"Vadeli"]));
-        kart.appendChild(borc);
-    }
-    return kart;
-}
-
-function renderOzet(){
-    var bitti=S.ro.filter(function(r){return r.du==="tamamlandi";}).length;
-    var bl2=S.ms.filter(function(m){return m.blocking===2;});
-    var gecikme=S.ms.filter(function(m){return borcDurum(m)==="gecikme";});
-    var content=div("content");
-    
-    var grid=div("grid2");
-    
-    // Bugun ziyaret
-    var k1=div("card",null,{style:"cursor:pointer;"});
-    k1.onclick=function(){if(S.ro.length>0){S.mod="oz-ziyaret";render();}};
-    var n1=div("stat-num",[bitti+"/"+S.ro.length],{style:"color:#1e3a5f;"});
-    var l1=div("stat-label",["Bugun Ziyaret"]);
-    var p1=div("progress",[h("div",{className:"progress-bar",style:"width:"+Math.min(100,(bitti/(S.ro.length||1))*100)+"%"},[])]);
-    k1.appendChild(n1);k1.appendChild(l1);k1.appendChild(p1);
-    
-    // Tahsilat
-    var k2=div("card",null,{style:"cursor:pointer;"});
-    k2.onclick=function(){if(bl2.length>0){S.mod="oz-tahsilat";render();}};
-    var n2=div("stat-num",[bl2.length],{style:"color:#c1121f;"});
-    var l2=div("stat-label",["Tahsilat Bekleyen"]);
-    k2.appendChild(n2);k2.appendChild(l2);
-    if(bl2.length>0){var t2=div("",null,{style:"font-size:10px;color:#c1121f;margin-top:4px;"});t2.textContent=fPara(bl2.reduce(function(a,m){return a+(m.borc||0);},0));k2.appendChild(t2);}
-
-    // Toplam
-    var k3=div("card",null,{style:"cursor:pointer;"});
-    k3.onclick=function(){S.mod="oz-musteri";render();};
-    var n3=div("stat-num",[S.ms.length],{style:"color:#1e3a5f;"});
-    var l3=div("stat-label",["Toplam Musteri"]);
-    var t3=div("",null,{style:"font-size:10px;color:#64748b;margin-top:4px;"});
-    t3.textContent=S.ms.filter(function(m){return m.borc>0;}).length+" borclu";
-    k3.appendChild(n3);k3.appendChild(l3);k3.appendChild(t3);
-    
-    // Kampanya
-    var k4=div("card",null,{style:"cursor:pointer;"});
-    k4.onclick=function(){if(S.ks.length>0){S.mod="oz-kampanya";render();}};
-    var n4=div("stat-num",[S.ks.length],{style:"color:#e9a020;"});
-    var l4=div("stat-label",["Aktif Kampanya"]);
-    k4.appendChild(n4);k4.appendChild(l4);
-
-    grid.appendChild(k1);grid.appendChild(k2);grid.appendChild(k3);grid.appendChild(k4);
-    content.appendChild(grid);
-    
-    // Tahsilat uyarı
-    if(bl2.length>0){
-        var uyari=div("card card-red",null,{style:"background:#fef2f2;margin-bottom:14px;"});
-        var ut=div("f11 fw700 text-red mb10",["Tahsilat Bekleyen ("+bl2.length+")"]);
-        uyari.appendChild(ut);
-        bl2.slice(0,3).forEach(function(m){
-            var mk=musteriKart(m,function(){S.aid=m.id;S.mod="detay";render();});
-            uyari.appendChild(mk);
-        });
-        content.appendChild(uyari);
-    }
-    
-    // Rota özeti
-    var rotaCard=div("card mb14");
-    var rotaHead=div("flex justify-between items-center mb12");
-    var rotaTitle=div("f11 fw700 text-muted",["Bugunku Rota"]);
-    rotaTitle.style.textTransform="uppercase";
-    var rotaBtn=btn("Tumu",function(){S.pg="r";render();},"btn btn-ghost btn-small");
-    rotaHead.appendChild(rotaTitle);rotaHead.appendChild(rotaBtn);
-    rotaCard.appendChild(rotaHead);
-    if(S.ro.length===0){
-        var emp=div("",["Rota sekmesinden olustur"],{style:"text-align:center;padding:20px 0;color:#64748b;font-size:13px;"});
-        rotaCard.appendChild(emp);
-    } else {
-        S.ro.slice(0,4).forEach(function(r,i){
-            var m=S.ms.find(function(x){return x.id===r.mid;});
-            if(!m) return;
-            var DB={bekliyor:"#fef3d8",ziyarette:"#dceaf3",tamamlandi:"#d8f3dc",sonra:"#fde8e2"};
-            var DC={bekliyor:"#e9a020",ziyarette:"#1e3a5f",tamamlandi:"#1e3a5f",sonra:"#e76f51"};
-            var DT={bekliyor:"Bekliyor",ziyarette:"Ziyarette",tamamlandi:"Bitti",sonra:"Sonra"};
-            var row=div("flex items-center gap8 mb10",null,{style:"background:#f8fafc;border-radius:9px;padding:9px 11px;"});
-            var num=div("rota-num",[String(i+1)]);
-            var info=div("",null,{style:"flex:1;min-width:0;"});
-            var ad=div("fw700 f13",null,{style:"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"});
-            ad.textContent=m.ad;
-            var alt=div("f11 text-muted",[m.brans]);
-            info.appendChild(ad);info.appendChild(alt);
-            var st=h("span",{className:"badge",style:"background:"+(DB[r.du]||"#f0f0f0")+";color:"+(DC[r.du]||"#555")},[(DT[r.du]||r.du)]);
-            row.appendChild(num);row.appendChild(info);row.appendChild(st);
-            rotaCard.appendChild(row);
-        });
-    }
-    content.appendChild(rotaCard);
-    
-    return content;
-}
-
-function renderRota(){
-    var content=div("content");
-    var card=div("card mb14");
-    
-    // Başlık
-    var head=div("flex justify-between items-center mb10");
-    var title=div("f11 fw700 text-muted",["Gunluk Rota "+S.ro.length+"/8"]);
-    title.style.textTransform="uppercase";
-    var btns=div("flex gap6");
-    btns.appendChild(btn("Otomatik",function(){otomatikRota();},"btn btn-ghost btn-small"));
-    btns.appendChild(btn("+ Ekle",function(){S.mod="re";render();},"btn btn-primary btn-small"));
-    head.appendChild(title);head.appendChild(btns);
-    card.appendChild(head);
-    
-    // Sıralama
-    var siralaDiv=div("flex gap6 mb10 flex-wrap");
-    var siraLabel=div("f11 text-muted",["Sirala:"],{style:"line-height:28px;"});
-    siralaDiv.appendChild(siraLabel);
-    [["puan","Akilli"],["adres","Adres"],["bakiye","Bakiye"],["kampanya","Kampanya"]].forEach(function(x){
-        var b=h("button",{
-            className:"btn btn-ghost btn-small",
-            onclick:function(){S.rotaSira=x[0];render();}
-        },[x[1]]);
-        if(S.rotaSira===x[0]){b.style.background="#1e3a5f";b.style.color="#fff";b.style.border="1.5px solid #1e3a5f";}
-        siralaDiv.appendChild(b);
-    });
-    card.appendChild(siralaDiv);
-    
-    // Progress
-    var prog=div("progress mb14",[h("div",{className:"progress-bar",style:"width:"+Math.min(100,S.ro.length/8*100)+"%"},[])]);
-    card.appendChild(prog);
-    
-    // Bakiye modunda tüm müşteriler
-    if(S.rotaSira==="bakiye"){
-        var sorted=S.ms.slice().sort(function(a,b){
-            var ag=borcDurum(a)==="gecikme"?1:0,bg=borcDurum(b)==="gecikme"?1:0;
-            if(bg!==ag) return bg-ag;
-            return (b.totalOverdue||b.borc||0)-(a.totalOverdue||a.borc||0);
-        });
-        sorted.forEach(function(m){
-            var inRota=S.ro.find(function(r){return r.mid===m.id;});
-            var mk=musteriKart(m,function(){
-                if(inRota){S.aid=m.id;S.mod="detay";render();}
-                else if(S.ro.length<8){sRo(S.ro.concat([{mid:m.id,du:"bekliyor"}]));showT("Rotaya eklendi");}
-                else showT("Maks 8!",true);
-            });
-            if(inRota) mk.style.background="#d8f3dc";
-            card.appendChild(mk);
-        });
-    } else if(S.ro.length===0){
-        var emp=div("",["Otomatik ile en iyi 8 musteri secilsin"],{style:"text-align:center;padding:28px 0;color:#64748b;font-size:13px;"});
-        card.appendChild(emp);
-    } else {
-        // Diğer sıralamalar
-        var rotaMs=S.ro.map(function(r){return {r:r,m:S.ms.find(function(x){return x.id===r.mid;})};}).filter(function(x){return x.m;});
-        if(S.rotaSira==="adres") rotaMs.sort(function(a,b){return (a.m.konum||5)-(b.m.konum||5);});
-        if(S.rotaSira==="kampanya") rotaMs.sort(function(a,b){
-            var ak=S.ks.filter(function(k){return KH[k.kategori].indexOf(a.m.brans)>=0;}).length;
-            var bk=S.ks.filter(function(k){return KH[k.kategori].indexOf(b.m.brans)>=0;}).length;
-            return bk-ak;
-        });
-        
-        rotaMs.forEach(function(item,idx){
-            var m=item.m,r=item.r;
-            var bl=blokInfo(m.blocking);
-            var row=div("card mb8 flex items-center gap8",null,{style:"border-color:"+(m.blocking===2?"#c1121f":"#e2e8f0")});
-            var num=div("rota-num",[String(idx+1)]);
-            var info=div("",null,{style:"flex:1;min-width:0;cursor:pointer;"});
-            info.onclick=function(){S.aid=m.id;S.mod="detay";render();};
-            var ad=div("fw700 f13");ad.textContent=m.ad;
-            var alt=div("f11 text-muted");alt.textContent=bl?bl.l:(m.adres||m.bransDetay||m.brans);
-            var bgs=div("flex gap6",null,{style:"margin-top:3px;"});
-            bgs.appendChild(badge(m.brans,true));
-            if(m.borc>0){var bs=h("span",{style:"font-size:10px;color:"+(borcDurum(m)==="gecikme"?"#c1121f":"#e9a020")+";font-family:monospace;"},[fPara(m.borc)]);bgs.appendChild(bs);}
-            info.appendChild(ad);info.appendChild(alt);info.appendChild(bgs);
-            
-            var DB={bekliyor:"#fef3d8",ziyarette:"#dceaf3",tamamlandi:"#d8f3dc",sonra:"#fde8e2"};
-            var DC={bekliyor:"#e9a020",ziyarette:"#1e3a5f",tamamlandi:"#1e3a5f",sonra:"#e76f51"};
-            var controls=div("flex gap4 flex-shrink-0 items-center",null,{style:"flex-direction:column;"});
-            var sel=h("select",{
-                className:"",
-                onchange:function(ev){
-                    var nd=ev.target.value;
-                    sRo(S.ro.map(function(x){return x.mid===m.id?Object.assign({},x,{du:nd}):x;}));
-                    if(nd==="tamamlandi"){S.aid=m.id;S.zf={sonuc:"siparis",tutar:"",not:""};S.mod="ziyaret";render();}
-                },
-                style:"background:"+(DB[r.du]||"#f0f0f0")+";color:"+(DC[r.du]||"#555")+";border:none;border-radius:16px;padding:4px 8px;font-size:10px;font-weight:700;cursor:pointer;"
-            },[]);
-            [["bekliyor","Bekliyor"],["ziyarette","Ziyarette"],["tamamlandi","Bitti"],["sonra","Sonra"]].forEach(function(opt){
-                var o=h("option",{value:opt[0]},[opt[1]]);
-                if(r.du===opt[0]) o.selected=true;
-                sel.appendChild(o);
-            });
-            
-            var btnDiv=div("flex gap4");
-            if(m.adres){
-                var mapsBtn=h("button",{
-                    className:"btn",
-                    onclick:function(){mapsAc(m);},
-                    style:"background:#dbeafe;color:#1e3a5f;font-size:10px;padding:3px 7px;border:none;border-radius:6px;"
-                },["Maps"]);
-                btnDiv.appendChild(mapsBtn);
-            }
-            var xBtn=h("button",{
-                className:"btn btn-ghost",
-                onclick:function(){sRo(S.ro.filter(function(x){return x.mid!==m.id;}));showT("Cikarildi");},
-                style:"font-size:10px;padding:3px 7px;"
-            },["X"]);
-            var bittiBtn=h("button",{
-                onclick:function(){
-                    var obj={id:"Z"+Date.now(),musteriId:m.id,tarih:today(),sonuc:"siparis",tutar:0,not:""};
-                    sZs(S.zs.concat([obj]));
-                    sMs(S.ms.map(function(x){return x.id===m.id?Object.assign({},x,{sonZiyaret:today()}):x;}));
-                    sRo(S.ro.map(function(x){return x.mid===m.id?Object.assign({},x,{du:"tamamlandi"}):x;}));
-                    showT("Ziyaret kaydedildi!");
-                },
-                style:"background:#10b981;border:none;border-radius:6px;padding:3px 7px;cursor:pointer;font-size:10px;color:#fff;font-weight:700;"
-            },["Bitti!"]);
-            btnDiv.appendChild(xBtn);btnDiv.appendChild(bittiBtn);
-            controls.appendChild(sel);controls.appendChild(btnDiv);
-            
-            row.appendChild(num);row.appendChild(info);row.appendChild(controls);
-            card.appendChild(row);
-        });
-    }
-    content.appendChild(card);
-    return content;
-}
-
-function renderMusteri(){
-    var content=div("content");
-    var topBar=div("flex gap6 mb8 flex-wrap");
-    topBar.appendChild(btn("+ Ekle",function(){S.mod="me";render();},"btn btn-primary btn-small"));
-    var sel=h("select",{
-        className:"input",
-        onchange:function(ev){S.fb=ev.target.value;render();},
-        style:"flex:1;font-size:12px;padding:6px 10px;"
-    },[]);
-    [["","Tum Branslar"],["Restoran","Restoran"],["Kafe/Pastane","Kafe/Pastane"],["Fast Food","Fast Food"],["Bar/Meyhane","Bar/Meyhane"],["Otel","Otel"],["Kurumsal Mutfak","Kurumsal Mutfak"]].forEach(function(b){
-        var o=h("option",{value:b[0]},[b[1]]);
-        if(S.fb===b[0]) o.selected=true;
-        sel.appendChild(o);
-    });
-    topBar.appendChild(sel);
-    content.appendChild(topBar);
-    
-    var ara=div("arama");
-    var araIkon=div("arama-ikon",["⌕"]);
-    var araInp=h("input",{className:"input",placeholder:"Musteri ara...",value:S.sq,oninput:function(ev){S.sq=ev.target.value;render();}});
-    araInp.style.paddingLeft="34px";
-    ara.appendChild(araIkon);ara.appendChild(araInp);
-    content.appendChild(ara);
-    
-    var filtered=S.ms.filter(function(m){
-        return (!S.fb||m.brans===S.fb)&&(!S.sq||m.ad.toLowerCase().indexOf(S.sq.toLowerCase())>=0);
-    });
-    var sayiDiv=div("f13 text-muted mb8",[filtered.length+" musteri"]);
-    content.appendChild(sayiDiv);
-    
-    filtered.forEach(function(m){
-        content.appendChild(musteriKart(m,function(){S.aid=m.id;S.mod="detay";render();}));
-    });
-    return content;
-}
-
-function renderKampanya(){
-    var content=div("content");
-    var head=div("flex justify-between items-center mb12");
-    head.appendChild(h("span",{style:"font-weight:800;font-size:15px;"},["Aktif Kampanyalar"]));
-    head.appendChild(btn("+ Kampanya",function(){S.kf={urun:"",normal:"",kamp:"",kat:"herkes",brans:"herkes",tarih:"",acik:""};S.mod="ke";render();},"btn btn-primary btn-small"));
-    content.appendChild(head);
-    
-    if(S.ks.length===0){
-        content.appendChild(div("",["Metro katalogunden kampanya ekle"],{style:"text-align:center;padding:32px;color:#64748b;"}));
-    } else {
-        S.ks.forEach(function(k){
-            var kard=div("card mb8 flex gap8",null,{style:"align-items:flex-start;"});
-            var info=div("",null,{style:"flex:1;"});
-            var ad=div("fw700 f13",[k.urun]);
-            var fiy=div("f11 text-muted",null,{style:"font-family:monospace;"});
-            fiy.textContent=fPara(k.kampFiyat)+" / "+fPara(k.normalFiyat)+(k.tarih?" - "+fTarih(k.tarih):"");
-            var bgs=div("",null,{style:"margin-top:5px;display:flex;gap:3px;flex-wrap:wrap;"});
-            if(k.brans&&k.brans!=="herkes"){bgs.appendChild(badge(k.brans,true));}
-            else{KH[k.kategori]&&KH[k.kategori].forEach(function(b){bgs.appendChild(badge(b,true));});}
-            info.appendChild(ad);info.appendChild(fiy);if(k.aciklama){var ac=div("f11 text-muted",[k.aciklama]);info.appendChild(ac);}info.appendChild(bgs);
-            var xBtn=h("button",{onclick:function(){sKs(S.ks.filter(function(x){return x.id!==k.id;}));showT("Silindi");},style:"background:transparent;border:1.5px solid #e2e8f0;border-radius:6px;padding:4px 7px;cursor:pointer;font-size:11px;color:#64748b;flex-shrink:0;"},["X"]);
-            kard.appendChild(info);kard.appendChild(xBtn);
-            content.appendChild(kard);
-        });
-    }
-    return content;
-}
-
-function renderBorc(){
-    var content=div("content");
-    var topBar=div("flex gap8 mb10 flex-wrap");
-    var sel=h("select",{className:"input",onchange:function(ev){S.fbo=ev.target.value;render();},style:"flex:1;font-size:13px;padding:7px 10px;"},[]);
-    [["hepsi","Tum Borclar"],["gecikme","Gecikmis"],["vadeli","Vadeli"],["yok","Borcsuz"]].forEach(function(b){
-        var o=h("option",{value:b[0]},[b[1]]);
-        if(S.fbo===b[0]) o.selected=true;
-        sel.appendChild(o);
-    });
-    topBar.appendChild(sel);
-    topBar.appendChild(btn("+ Guncelle",function(){S.bf={mid:S.ms[0]?S.ms[0].id:"",borc:"",vade:"30"};S.mod="be";render();},"btn btn-primary btn-small"));
-    content.appendChild(topBar);
-    var borcBtn=btn("Excel Yapistir (Borc Guncelle)",function(){S.mod="borcyapistir";S.borcMetin="";render();},"btn btn-ghost btn-full");
-    borcBtn.style.marginBottom="10px";
-    content.appendChild(borcBtn);
-    
-    var filtered=S.ms.filter(function(m){
-        if(S.fbo==="gecikme") return borcDurum(m)==="gecikme";
-        if(S.fbo==="vadeli") return m.borc>0&&borcDurum(m)==="ok";
-        if(S.fbo==="yok") return !m.borc||m.borc===0;
-        return true;
-    }).sort(function(a,b){return gecGun(b)-gecGun(a)||(b.borc||0)-(a.borc||0);});
-    
-    filtered.forEach(function(m){
-        content.appendChild(musteriKart(m,function(){S.aid=m.id;S.mod="detay";render();}));
-    });
-    return content;
-}
-
-function renderRapor(){
-    var content=div("content");
-    var bas=new Date();
-    bas.setDate(bas.getDate()-7);
-    var dz=S.zs.filter(function(z){return z.tarih>=bas.toISOString().split("T")[0];});
-    var sp=dz.filter(function(z){return z.sonuc==="siparis";});
-    var tutar=sp.reduce(function(a,z){return a+(z.tutar||0);},0);
-    var bl2=S.ms.filter(function(m){return m.blocking===2;});
-    var gecikme=S.ms.filter(function(m){return borcDurum(m)==="gecikme";});
-    
-    var z1=div("card mb14");
-    var zt=div("f11 fw700 text-muted mb12",["Ziyaret Ozeti"]);zt.style.textTransform="uppercase";
-    z1.appendChild(zt);
-    function row2(l,v,c){var r=div("row");r.appendChild(h("span",{},[l]));var vs=h("span",{style:"font-family:monospace;font-weight:700;color:"+(c||"#1e293b")},[String(v)]);r.appendChild(vs);return r;}
-    z1.appendChild(row2("Toplam Ziyaret",dz.length));
-    z1.appendChild(row2("Siparis",sp.length,"#1e3a5f"));
-    z1.appendChild(row2("Donusum","%"+Math.round(sp.length/(dz.length||1)*100),"#1e3a5f"));
-    z1.appendChild(row2("Toplam Tutar",fPara(tutar),"#1e3a5f"));
-    content.appendChild(z1);
-    
-    var z2=div("card mb14");
-    var zt2=div("f11 fw700 text-muted mb12",["Tahsilat Ozeti"]);zt2.style.textTransform="uppercase";
-    z2.appendChild(zt2);
-    z2.appendChild(row2("Odeme Blokeli",bl2.length,"#c1121f"));
-    z2.appendChild(row2("Gecikmis",gecikme.length,"#e76f51"));
-    z2.appendChild(row2("Toplam Borclu",S.ms.filter(function(m){return m.borc>0;}).length,"#e9a020"));
-    z2.appendChild(row2("Toplam Bakiye",fPara(S.ms.reduce(function(a,m){return a+(m.borc||0);},0)),"#1e3a5f"));
-    content.appendChild(z2);
-    
-    // Yedek
-    var yb=btn("Yedek Al (Kopyala)",function(){disaAktar();},"btn btn-ghost btn-full");
-    yb.style.marginBottom="8px";
-    content.appendChild(yb);
-    var yi=btn("Yedek Yukle (Yapistir)",function(){S.mod="ice";S.iceMetin="";render();},"btn btn-ghost btn-full");
-    content.appendChild(yi);
-    
-    return content;
-}
-
-// ============ FONKSİYONLAR ============
-function mapsAc(m){
-    var adres=m.adres||m.ad;
-    var url="https://maps.google.com/?q="+encodeURIComponent(adres+", Istanbul, Turkiye");
-    var a=document.createElement("a");
-    a.href=url;a.target="_blank";a.rel="noopener";
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-}
-
-function otomatikRota(){
-    var gun=new Date().getDay();
-    var bm={1:[1,2],2:[3,4],3:[5,6],4:[7,8],5:[9,10]};
-    var b=bm[gun]||[1,10];
-    var havuz=S.ms.filter(function(m){return m.blocking!==7&&m.konum>=b[0]&&m.konum<=b[1];});
-    if(havuz.length<8) havuz=S.ms.filter(function(m){return m.blocking!==7;});
-    havuz=havuz.slice(0,8);
-    sRo(havuz.map(function(m){return {mid:m.id,du:"bekliyor"};}));
-    showT(havuz.length+" musteri secildi");
-}
-
-function borcYapistir(metin){
-    if(!metin.trim()){showT("Metin bos!",true);return;}
-    try{
-        var satirlar=metin.trim().split("\n");
-        if(satirlar.length<2){showT("En az 2 satir gerekli!",true);return;}
-        
-        // Tab veya virgül ayracı
-        var ayrac=satirlar[0].indexOf("\t")>=0?"\t":",";
-        var headers=satirlar[0].split(ayrac).map(function(h){return h.trim().replace(/"/g,"").toUpperCase();});
-        
-        var noIdx=headers.findIndex(function(h){return h.includes("MUSTERI_NO")||h.includes("MUSTERI NO")||h==="NO"||h==="ID";});
-        var balIdx=headers.findIndex(function(h){return h.includes("TOTAL_BALANCE")||h.includes("BALANCE")||h.includes("BAKIYE")||h.includes("BORC");});
-        var ovdIdx=headers.findIndex(function(h){return h.includes("OVER_DUE")||h.includes("OVERDUE")||h.includes("GECIKME");});
-        var blkIdx=headers.findIndex(function(h){return h.includes("BLOCKING");});
-        var vadeIdx=headers.findIndex(function(h){return h.includes("VADE");});
-        
-        if(balIdx<0){showT("Bakiye kolonu bulunamadi! (TOTAL_BALANCE)",true);return;}
-        if(noIdx<0){showT("Musteri no kolonu bulunamadi! (MUSTERI_NO)",true);return;}
-        
-        var updates={};
-        for(var i=1;i<satirlar.length;i++){
-            var cols=satirlar[i].split(ayrac);
-            if(cols.length<2) continue;
-            var musNo=cols[noIdx].replace(/"/g,"").trim();
-            var bal=parseFloat(cols[balIdx].replace(/"/g,"").replace(/,/g,".").trim())||0;
-            var ovd=ovdIdx>=0?(parseFloat(cols[ovdIdx].replace(/"/g,"").replace(/,/g,".").trim())||0):0;
-            var blk=blkIdx>=0?(parseInt(cols[blkIdx].replace(/"/g,"").trim())||0):0;
-            var vadeRaw=vadeIdx>=0?cols[vadeIdx].replace(/"/g,"").trim():"30";
-            var vade=vadeRaw.startsWith("F")?30:(parseInt(vadeRaw)||30);
-            if(musNo) updates[musNo]={borc:bal,totalOverdue:ovd,blocking:blk,vade:vade,borcTarihi:bal>0?today():""};
-        }
-        
-        var updated=0;
-        var yeni=S.ms.map(function(m){
-            var upd=updates[String(m.id)];
-            if(upd){updated++;return Object.assign({},m,upd);}
-            return m;
-        });
-        sMs(yeni);
-        S.mod=null;
-        showT(updated+" musteri borcu guncellendi!");
-    }catch(err){showT("Hata: "+err.message,true);}
+reader.readAsText(file,“UTF-8”);
+e.target.value=””;
 }
 
 function disaAktar(){
-    var veri={ms:S.ms,ks:S.ks,ro:S.ro,zs:S.zs,tarih:today()};
-    var json=JSON.stringify(veri);
-    navigator.clipboard.writeText(json).then(function(){
-        showT("Yedek kopyalandi! Notes uygulamasina yapistirin.");
-    }).catch(function(){
-        S.yedekMetin=json;S.mod="yedek";render();
-    });
+var veri={ms:ms,ks:ks,ro:ro,zs:zs,tarih:today()};
+var json=JSON.stringify(veri);
+navigator.clipboard.writeText(json).then(function(){
+showT(“Yedek kopyalandi! Notes uygulamasina yapistiriniz.”);
+}).catch(function(){
+setYedekMetin(json);
+setMod(“yedek”);
+});
 }
 
 function iceAktarMetin(metin){
-    try{
-        var veri=JSON.parse(metin.trim());
-        if(veri.ms&&veri.ms.length){
-            sMs(veri.ms);
-            if(veri.ks) sKs(veri.ks);
-            if(veri.ro) sRo(veri.ro);
-            if(veri.zs) sZs(veri.zs);
-            S.mod=null;
-            showT(veri.ms.length+" musteri yuklendi!");
-        } else showT("Gecersiz veri!",true);
-    } catch(e){showT("Hata: Gecersiz format",true);}
+try{
+var veri=JSON.parse(metin.trim());
+if(veri.ms&&veri.ms.length){
+sMs(veri.ms);
+if(veri.ks)sKs(veri.ks);
+if(veri.ro)sRo(veri.ro);
+if(veri.zs)sZs(veri.zs);
+setMod(null);
+showT(veri.ms.length+” musteri yuklendi!”);
+}else{showT(“Gecersiz veri!”,true);}
+}catch(err){showT(“Hata: Gecersiz format”,true);}
 }
 
-// ============ MODALLER ============
-function modal(title, bodyFn, actions){
-    var overlay=div("modal-overlay");
-    overlay.onclick=function(ev){if(ev.target===overlay){S.mod=null;render();}};
-    var box=div("modal");
-    box.appendChild(div("modal-handle"));
-    if(title) box.appendChild(div("modal-title",[title]));
-    box.appendChild(bodyFn());
-    if(actions){
-        var actDiv=div("flex gap8 mt16 flex-wrap");
-        actDiv.style.marginTop="16px";
-        actions.forEach(function(a){actDiv.appendChild(a);});
-        box.appendChild(actDiv);
-    }
-    overlay.appendChild(box);
-    return overlay;
+function sMs(v){setMs(v);saveData(“m9_m”,v);}
+function sKs(v){setKs(v);saveData(“m9_k”,v);}
+function sRo(v){setRo(v);saveData(“m9_r”,v);}
+function sZs(v){setZs(v);saveData(“m9_z”,v);}
+function showT(msg,err){setTst({msg:msg,err:!!err});if(tRef.current)clearTimeout(tRef.current);tRef.current=setTimeout(function(){setTst(null);},2500);}
+
+useEffect(function(){
+loadData(“m9_m”,null,function(m){
+loadData(“m9_k”,null,function(k){
+loadData(“m9_r”,[],function(r){
+loadData(“m9_z”,[],function(z){
+var data=(m&&m.length)?m:getData();
+setMs(data);
+if(!m||!m.length)saveData(“m9_m”,data);
+var now=new Date(),b1=new Date(now),b2=new Date(now);
+b1.setDate(b1.getDate()+6);b2.setDate(b2.getDate()+14);
+var dk=[
+{id:“K001”,urun:“Zeytinya 5L”,normalFiyat:480,kampFiyat:390,kategori:“herkes”,brans:“herkes”,tarih:b1.toISOString().split(“T”)[0],aciklama:”%19 indirim”},
+{id:“K002”,urun:“Sarap Kasa”,normalFiyat:1800,kampFiyat:1450,kategori:“alkol”,brans:“Bar/Meyhane”,tarih:b2.toISOString().split(“T”)[0],aciklama:“Ozel fiyat”},
+{id:“K003”,urun:“Espresso 5kg”,normalFiyat:650,kampFiyat:520,kategori:“kahve”,brans:“Kafe/Pastane”,tarih:b1.toISOString().split(“T”)[0],aciklama:“Premium”}
+];
+setKs((k&&k.length)?k:dk);
+if(!k||!k.length)saveData(“m9_k”,dk);
+setRo(r||[]);setZs(z||[]);
+});
+});
+});
+});
+},[]);
+
+// Borç Excel yükleme
+function borcExcelYukle(e){
+var file=e.target.files[0];
+if(!file)return;
+showT(“Yukleniyor…”);
+var reader=new FileReader();
+reader.onload=function(ev){
+try{
+// CSV formatında bekliyoruz - basit parse
+var text=ev.target.result;
+var lines=text.split(”\n”);
+if(lines.length<2){showT(“Dosya bos!”,true);return;}
+var headers=lines[0].split(”,”).map(function(h){return h.trim().split(String.fromCharCode(34)).join(””);});
+var musIdx=headers.findIndex(function(h){return h.includes(“MUSTERI_NO”)||h.includes(“MÜŞTERİ_NO”);});
+var balIdx=headers.findIndex(function(h){return h.includes(“TOTAL_BALANCE”);});
+var ovdIdx=headers.findIndex(function(h){return h.includes(“TOTAL_OVER_DUE”);});
+var blkIdx=headers.findIndex(function(h){return h.includes(“BLOCKING”);});
+var vadeIdx=headers.findIndex(function(h){return h.includes(“VADE”);});
+var adIdx=headers.findIndex(function(h){return h.includes(“UNVANI”)||h.includes(“ÜNVANI”);});
+if(balIdx<0){showT(“Kolon bulunamadi! CSV olarak kaydet.”,true);return;}
+var updates={};
+for(var i=1;i<lines.length;i++){
+var cols=lines[i].split(”,”);
+if(cols.length<3)continue;
+var ad=(adIdx>=0?cols[adIdx]:””).split(String.fromCharCode(34)).join(””).trim().toUpperCase();
+var bal=parseFloat(cols[balIdx])||0;
+var ovd=parseFloat((ovdIdx>=0?cols[ovdIdx]:0))||0;
+var blk=parseInt(cols[blkIdx])||0;
+var vadeRaw=(vadeIdx>=0?cols[vadeIdx]:“30”).split(String.fromCharCode(34)).join(””).trim();
+var vade=vadeRaw.startsWith(“F”)?30:(parseInt(vadeRaw)||30);
+if(ad)updates[ad]={borc:bal,totalOverdue:ovd,blocking:blk,vade:vade,borcTarihi:today()};
+}
+var updated=0;
+var yeni=ms.map(function(m){
+var key=m.ad.toUpperCase().trim();
+if(updates[key]){updated++;return Object.assign({},m,updates[key]);}
+return m;
+});
+sMs(yeni);
+showT(updated+” musteri borcu guncellendi!”);
+}catch(err){showT(“Hata: “+err.message,true);}
+};
+reader.readAsText(file,“UTF-8”);
+e.target.value=””;
 }
 
-function fg(label, input){
-    var w=div("fg");
-    w.appendChild(h("label",{className:"label"},[label]));
-    w.appendChild(input);
-    return w;
+var AM=ms.find(function(x){return x.id===aid;})||null;
+var e=React.createElement;
+var inp={fontFamily:“inherit”,background:”#f8fafc”,border:“1.5px solid #e2ddd4”,borderRadius:9,color:”#1e293b”,fontSize:14,padding:“10px 13px”,width:“100%”,outline:“none”,boxSizing:“border-box”};
+
+function Inp(p){return e(“input”,Object.assign({style:inp},p));}
+function Sel(p,ch){return e(“select”,Object.assign({style:inp},p),ch);}
+function Txa(p){return e(“textarea”,Object.assign({style:Object.assign({},inp,{resize:“vertical”})},p));}
+function FG(label,child){return e(“div”,{style:{marginBottom:12}},e(“label”,{style:{fontSize:11,color:”#64748b”,fontWeight:700,marginBottom:5,display:“block”}},label),child);}
+function Btn(text,onClick,variant,small,full){
+var bg=variant===“g”?“transparent”:variant===“o”?”#e76f51”:variant===“r”?”#c1121f”:”#1e3a5f”;
+var cl=variant===“g”?”#64748b”:”#fff”;
+var br=variant===“g”?“1.5px solid #e2ddd4”:“none”;
+return e(“button”,{onClick:onClick,style:{fontFamily:“inherit”,fontWeight:700,fontSize:small?11:13,padding:small?“6px 12px”:“10px 18px”,borderRadius:9,border:br,cursor:“pointer”,background:bg,color:cl,display:“inline-flex”,alignItems:“center”,width:full?“100%”:“auto”,justifyContent:full?“center”:“flex-start”,boxSizing:“border-box”}},text);
+}
+function Row(label,val,color){return e(“div”,{style:{display:“flex”,justifyContent:“space-between”,padding:“10px 0”,borderBottom:“1px solid #e2e8f0”,fontSize:13}},e(“span”,null,label),e(“span”,{style:{fontFamily:“monospace”,fontWeight:700,color:color||”#1e293b”}},val));}
+function Badge(brans,small){return e(“span”,{style:{background:BB[brans]||”#eee”,color:BC[brans]||”#555”,padding:small?“2px 6px”:“3px 8px”,borderRadius:20,fontSize:small?9:10,fontWeight:700,textTransform:“uppercase”,display:“inline-block”,whiteSpace:“nowrap”}},brans);}
+
+function MKart(m,onClick){
+var bd=borcDurum(m),brc=bd===“gecikme”?”#c1121f”:bd===“ok”?”#e9a020”:”#64748b”,bl=blokInfo(m.blocking);
+return e(“div”,{key:m.id,onClick:onClick,style:{background:”#fff”,border:“1.5px solid “+(bl?bl.c:”#e2e8f0”),borderRadius:12,padding:“12px 14px”,marginBottom:8,display:“flex”,alignItems:“center”,gap:10,cursor:“pointer”}},
+e(“div”,{style:{width:40,height:40,borderRadius:9,background:BB[m.brans]||”#eee”,display:“flex”,alignItems:“center”,justifyContent:“center”,fontSize:11,fontWeight:800,color:BC[m.brans]||”#555”,flexShrink:0}},ICO[m.brans]||”?”),
+e(“div”,{style:{flex:1,minWidth:0}},
+e(“div”,{style:{fontWeight:700,fontSize:13,overflow:“hidden”,textOverflow:“ellipsis”,whiteSpace:“nowrap”}},m.ad),
+e(“div”,{style:{fontSize:11,color:”#64748b”,marginTop:1}},(m.bransDetay||m.brans)+” | MTD:”+fPara(m.salesMTD)),
+e(“div”,{style:{marginTop:4,display:“flex”,gap:3,flexWrap:“wrap”}},
+Badge(m.brans,true),
+bl?e(“span”,{style:{background:bl.bg,color:bl.c,padding:“2px 6px”,borderRadius:20,fontSize:9,fontWeight:700}},bl.l):null,
+m.focusNonFocus===“Focus”?e(“span”,{style:{background:”#d8f3dc”,color:”#1e3a5f”,padding:“2px 6px”,borderRadius:20,fontSize:9,fontWeight:700}},“Focus”):null
+)
+),
+m.borc>0?e(“div”,{style:{textAlign:“right”,flexShrink:0}},
+e(“div”,{style:{fontFamily:“monospace”,fontWeight:700,fontSize:12,color:brc}},fPara(m.borc)),
+e(“div”,{style:{fontSize:10,color:brc,marginTop:1}},bd===“gecikme”?gecGun(m)+” gun”:“Vadeli”)
+):null
+);
 }
 
-function inp(attrs){return h("input",Object.assign({className:"input"},attrs));}
-function sela(attrs,opts){
-    var s=h("select",Object.assign({className:"input"},attrs),[]);
-    opts.forEach(function(o){
-        var op=h("option",{value:o[0]},[o[1]]);
-        if(attrs.value===o[0]) op.selected=true;
-        s.appendChild(op);
-    });
-    return s;
+function Modal(id,title,content,actions){
+if(mod!==id)return null;
+return e(“div”,{onClick:function(ev){if(ev.target===ev.currentTarget)setMod(null);},style:{position:“fixed”,inset:0,background:“rgba(0,0,0,.5)”,zIndex:500,display:“flex”,alignItems:“flex-end”,justifyContent:“center”}},
+e(“div”,{style:{background:”#fff”,borderRadius:“20px 20px 0 0”,padding:“20px 20px 36px”,width:“100%”,maxWidth:700,maxHeight:“88vh”,overflowY:“auto”}},
+e(“div”,{style:{width:40,height:4,background:”#e2e8f0”,borderRadius:20,margin:“0 auto 18px”}}),
+title?e(“div”,{style:{fontSize:18,fontWeight:800,marginBottom:16}},title):null,
+content,
+actions?e(“div”,{style:{display:“flex”,gap:8,marginTop:16,flexWrap:“wrap”}},actions):null
+)
+);
 }
 
-// ============ ANA RENDER ============
-function render(){
-    var app=document.getElementById("app");
-    app.innerHTML="";
-    
-    var now=new Date();
-    
-    // Header
-    var nav=div("nav");
-    var navLeft=div("flex items-center");
-    navLeft.appendChild(div("nav-logo",["M"]));
-    var navInfo=div("");
-    navInfo.appendChild(div("nav-title",["Metro Saha"]));
-    navInfo.appendChild(div("nav-sub",["Bagdat Caddesi - "+S.ms.length+" musteri"]));
-    navLeft.appendChild(navInfo);
-    var navRight=div("",null,{style:"color:rgba(255,255,255,.65);font-size:10px;text-align:right;line-height:1.5;"});
-    navRight.innerHTML=GUNLER[now.getDay()]+"<br>"+now.toLocaleDateString("tr-TR");
-    nav.appendChild(navLeft);nav.appendChild(navRight);
-    app.appendChild(nav);
-    
-    // Tabs
-    var tabs=div("tabs");
-    [["o","Ozet"],["r","Rota"],["m","Musteri"],["k","Kampanya"],["b","Borc"],["rp","Rapor"]].forEach(function(t){
-        var tab=div("tab"+(S.pg===t[0]?" active":""),[t[1]]);
-        tab.onclick=function(){S.pg=t[0];render();};
-        tabs.appendChild(tab);
-    });
-    app.appendChild(tabs);
-    
-    // İçerik
-    if(S.pg==="o") app.appendChild(renderOzet());
-    else if(S.pg==="r") app.appendChild(renderRota());
-    else if(S.pg==="m") app.appendChild(renderMusteri());
-    else if(S.pg==="k") app.appendChild(renderKampanya());
-    else if(S.pg==="b") app.appendChild(renderBorc());
-    else if(S.pg==="rp") app.appendChild(renderRapor());
-    
-    // Modaller
-    var AM=S.ms.find(function(x){return x.id===S.aid;})||null;
-    
-    if(S.mod==="oz-ziyaret"||S.mod==="oz-tahsilat"||S.mod==="oz-musteri"||S.mod==="oz-kampanya"){
-        var liste=[];
-        var modTitle="";
-        if(S.mod==="oz-ziyaret"){liste=S.ro.map(function(r){return S.ms.find(function(x){return x.id===r.mid;});}).filter(Boolean);modTitle="Bugunun Rotasi";}
-        if(S.mod==="oz-tahsilat"){liste=S.ms.filter(function(m){return m.blocking===2;});modTitle="Tahsilat Bekleyen";}
-        if(S.mod==="oz-musteri"){liste=S.ms;modTitle="Tum Musteriler";}
-        if(S.mod==="oz-kampanya"){liste=S.ms.filter(function(m){return S.ks.some(function(k){return KH[k.kategori].indexOf(m.brans)>=0;});});modTitle="Kampanya Alabilecek";}
-        app.appendChild(modal(modTitle,function(){
-            var c=div("");
-            liste.forEach(function(m){c.appendChild(musteriKart(m,function(){S.aid=m.id;S.mod="detay";render();}));});
-            return c;
-        },[btn("Kapat",function(){S.mod=null;render();},"btn btn-ghost")]));
-    }
-    
-    if(S.mod==="detay"&&AM){
-        app.appendChild(modal(null,function(){
-            var c=div("");
-            var topRow=div("flex gap10 items-center mb16");
-            var ikon=div("musteri-ikon",null,{style:"width:48px;height:48px;border-radius:10px;"});
-            ikon.style.background=BRANS_BG[AM.brans]||"#eee";
-            ikon.style.color=BRANS_C[AM.brans]||"#555";
-            ikon.style.fontSize="14px";
-            ikon.textContent=BRANS_ICO[AM.brans]||"?";
-            var info=div("");
-            var nad=div("",null,{style:"font-size:17px;font-weight:800;"});nad.textContent=AM.ad;
-            var nalt=div("f11 text-muted",[AM.bransDetay||AM.brans]);
-            info.appendChild(nad);info.appendChild(nalt);
-            topRow.appendChild(ikon);topRow.appendChild(info);
-            c.appendChild(topRow);
-            
-            function r2(l,v,col){var r=div("row");r.appendChild(h("span",{},[l]));var vs=h("span",{style:"font-family:monospace;font-weight:700;color:"+(col||"#1e293b")},[String(v||"-")]);r.appendChild(vs);return r;}
-            c.appendChild(r2("Tel",AM.tel||"-"));
-            c.appendChild(r2("Adres",AM.adres||"Girilmemis"));
-            if(AM.adres){
-                var mapsBtn=btn("Google Maps ta Ac",function(){mapsAc(AM);},"btn btn-ghost btn-small");
-                mapsBtn.style.marginTop="4px";
-                c.appendChild(mapsBtn);
-            }
-            c.appendChild(r2("MTD Ciro",fPara(AM.salesMTD),"#1e3a5f"));
-            c.appendChild(r2("YTD Ciro",fPara(AM.salesYTD),"#1e3a5f"));
-            if(AM.borc>0){
-                c.appendChild(r2("Bakiye",fPara(AM.borc),borcDurum(AM)==="gecikme"?"#c1121f":"#e9a020"));
-                if(AM.totalOverdue>0) c.appendChild(r2("Gecikme",fPara(AM.totalOverdue),"#c1121f"));
-                c.appendChild(r2("Vade",AM.vade+" gun"));
-                var bd=borcDurum(AM);
-                var kalan=Math.floor((new Date(AM.borcTarihi)-new Date()+(AM.vade||30)*86400000)/86400000);
-                var vadeStr=bd==="gecikme"?gecGun(AM)+" gun gecikmis":kalan<=3?"KRITIK: "+kalan+" gun":kalan<=7?kalan+" gun kaldi (Yaklasıyor)":kalan+" gun kaldi";
-                c.appendChild(r2("Vade Durumu",vadeStr,bd==="gecikme"?"#c1121f":kalan<=7?"#e9a020":"#1e3a5f"));
-            } else {
-                c.appendChild(r2("Borc","Borcsuz","#1e3a5f"));
-            }
-            c.appendChild(r2("Son Ziyaret",fTarih(AM.sonZiyaret)+" ("+gunFarki(AM.sonZiyaret)+" gun)"));
-            return c;
-        },[
-            btn("Kapat",function(){S.mod=null;render();},"btn btn-ghost btn-small"),
-            btn("Adres",function(){S.af={adres:AM.adres||"",tel:AM.tel||"",konum:String(AM.konum||5)};S.mod="adres";render();},"btn btn-ghost btn-small"),
-            btn("Ziyaret",function(){S.zf={sonuc:"siparis",tutar:"",not:""};S.mod="ziyaret";render();},"btn btn-primary btn-small")
-        ]));
-    }
-    
-    if(S.mod==="ziyaret"&&AM){
-        app.appendChild(modal("Ziyaret Notu",function(){
-            var c=div("");
-            c.appendChild(fg("Sonuc",sela({className:"input",onchange:function(ev){S.zf.sonuc=ev.target.value;},value:S.zf.sonuc},[["siparis","Siparis Verdi"],["vermedi","Vermedi"],["tekrar","Tekrar Ara"]])));
-            c.appendChild(fg("Tutar (TL)",inp({type:"number",placeholder:"0",value:S.zf.tutar,oninput:function(ev){S.zf.tutar=ev.target.value;}})));
-            c.appendChild(fg("Not",h("textarea",{className:"input",rows:"3",oninput:function(ev){S.zf.not=ev.target.value;}},S.zf.not?[S.zf.not]:[])));
-            return c;
-        },[
-            btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost"),
-            btn("Kaydet",function(){
-                var obj={id:"Z"+Date.now(),musteriId:S.aid,tarih:today(),sonuc:S.zf.sonuc,tutar:parseFloat(S.zf.tutar)||0,not:S.zf.not};
-                sZs(S.zs.concat([obj]));
-                sMs(S.ms.map(function(x){return x.id===S.aid?Object.assign({},x,{sonZiyaret:today()}):x;}));
-                S.mod=null;
-                showT({siparis:"Siparis kaydedildi",vermedi:"Ziyaret kaydedildi",tekrar:"Tekrar ara"}[S.zf.sonuc]||"Kaydedildi");
-            },"btn btn-primary")
-        ]));
-    }
-    
-    if(S.mod==="adres"&&AM){
-        app.appendChild(modal("Adres Guncelle",function(){
-            var c=div("");
-            c.appendChild(fg("Adres",inp({placeholder:"Moda Cad. No:12",value:S.af.adres,oninput:function(ev){S.af.adres=ev.target.value;}})));
-            c.appendChild(fg("Telefon",inp({placeholder:"05XX...",value:S.af.tel,oninput:function(ev){S.af.tel=ev.target.value;}})));
-            c.appendChild(fg("Konum (1=Fenerbahce 10=Suadiye)",inp({type:"number",min:"1",max:"10",value:S.af.konum,oninput:function(ev){S.af.konum=ev.target.value;}})));
-            return c;
-        },[
-            btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost"),
-            btn("Kaydet",function(){
-                sMs(S.ms.map(function(x){return x.id===S.aid?Object.assign({},x,{adres:S.af.adres,tel:S.af.tel,konum:parseInt(S.af.konum)||5}):x;}));
-                S.mod=null;showT("Adres kaydedildi");
-            },"btn btn-primary")
-        ]));
-    }
-    
-    if(S.mod==="be"){
-        app.appendChild(modal("Borc Guncelle",function(){
-            var c=div("");
-            var mSel=sela({className:"input",onchange:function(ev){S.bf.mid=ev.target.value;},value:S.bf.mid},S.ms.map(function(m){return [m.id,m.ad];}));
-            c.appendChild(fg("Musteri",mSel));
-            c.appendChild(fg("Toplam Bakiye (TL)",inp({type:"number",placeholder:"0",value:S.bf.borc,oninput:function(ev){S.bf.borc=ev.target.value;}})));
-            c.appendChild(fg("Vade (Gun)",inp({type:"number",placeholder:"30",value:S.bf.vade,oninput:function(ev){S.bf.vade=ev.target.value;}})));
-            return c;
-        },[
-            btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost"),
-            btn("Kaydet",function(){
-                var borc=parseFloat(S.bf.borc)||0;
-                sMs(S.ms.map(function(x){return x.id===S.bf.mid?Object.assign({},x,{borc:borc,vade:parseInt(S.bf.vade)||30,borcTarihi:borc>0?today():""}):x;}));
-                S.mod=null;showT("Borc guncellendi");
-            },"btn btn-primary")
-        ]));
-    }
-    
-    if(S.mod==="ke"){
-        app.appendChild(modal("Yeni Kampanya",function(){
-            var c=div("");
-            c.appendChild(fg("Urun Adi *",inp({placeholder:"Zeytinya 5L",value:S.kf.urun,oninput:function(ev){S.kf.urun=ev.target.value;}})));
-            c.appendChild(fg("Normal Fiyat",inp({type:"number",placeholder:"0",value:S.kf.normal,oninput:function(ev){S.kf.normal=ev.target.value;}})));
-            c.appendChild(fg("Kamp Fiyati",inp({type:"number",placeholder:"0",value:S.kf.kamp,oninput:function(ev){S.kf.kamp=ev.target.value;}})));
-            c.appendChild(fg("Son Tarih",inp({type:"date",value:S.kf.tarih,oninput:function(ev){S.kf.tarih=ev.target.value;}})));
-            c.appendChild(fg("Kategori",sela({className:"input",onchange:function(ev){S.kf.kat=ev.target.value;},value:S.kf.kat},[["herkes","Herkes"],["alkol","Alkol"],["kahve","Kahve/Pastane"],["mutfak","Toplu Mutfak"],["otel","Otel"],["fastfood","Fast Food"]])));
-            c.appendChild(fg("Aciklama",inp({placeholder:"Aciklama...",value:S.kf.acik,oninput:function(ev){S.kf.acik=ev.target.value;}})));
-            return c;
-        },[
-            btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost"),
-            btn("Kaydet",function(){
-                if(!S.kf.urun.trim()){showT("Urun adi zorunlu!",true);return;}
-                var obj={id:"K"+Date.now(),urun:S.kf.urun,normalFiyat:parseFloat(S.kf.normal)||0,kampFiyat:parseFloat(S.kf.kamp)||0,kategori:S.kf.kat,brans:S.kf.brans,tarih:S.kf.tarih,aciklama:S.kf.acik};
-                sKs(S.ks.concat([obj]));S.mod=null;showT("Kampanya eklendi");
-            },"btn btn-primary")
-        ]));
-    }
-    
-    if(S.mod==="me"){
-        app.appendChild(modal("Yeni Musteri",function(){
-            var c=div("");
-            c.appendChild(fg("Adi *",inp({placeholder:"Restoran adi",value:S.mf.ad,oninput:function(ev){S.mf.ad=ev.target.value;}})));
-            c.appendChild(fg("Adres",inp({placeholder:"Sokak/No",value:S.mf.adres,oninput:function(ev){S.mf.adres=ev.target.value;}})));
-            c.appendChild(fg("Brans",sela({className:"input",onchange:function(ev){S.mf.brans=ev.target.value;},value:S.mf.brans},[["Restoran","Restoran"],["Kafe/Pastane","Kafe/Pastane"],["Fast Food","Fast Food"],["Bar/Meyhane","Bar/Meyhane"],["Otel","Otel"],["Kurumsal Mutfak","Kurumsal Mutfak"]])));
-            c.appendChild(fg("Telefon",inp({placeholder:"05XX...",value:S.mf.tel,oninput:function(ev){S.mf.tel=ev.target.value;}})));
-            c.appendChild(fg("Konum (1-10)",inp({type:"number",min:"1",max:"10",value:S.mf.konum,oninput:function(ev){S.mf.konum=ev.target.value;}})));
-            return c;
-        },[
-            btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost"),
-            btn("Kaydet",function(){
-                if(!S.mf.ad.trim()){showT("Ad zorunlu!",true);return;}
-                var obj={id:"M"+Date.now(),ad:S.mf.ad,adres:S.mf.adres,brans:S.mf.brans,bransDetay:"",tel:S.mf.tel,borc:0,vade:30,borcTarihi:"",konum:parseInt(S.mf.konum)||5,sonZiyaret:"",blocking:0,salesMTD:0,salesYTD:0,totalOverdue:0,focusNonFocus:"Non Focus"};
-                sMs(S.ms.concat([obj]));S.mf={ad:"",adres:"",brans:"Restoran",tel:"",konum:"5"};S.mod=null;showT("Musteri eklendi");
-            },"btn btn-primary")
-        ]));
-    }
-    
-    if(S.mod==="re"){
-        app.appendChild(modal("Rotaya Ekle",function(){
-            var c=div("");
-            var ara2=div("arama mb10");
-            var araI2=h("input",{className:"input",placeholder:"Musteri ara...",value:S.sq,oninput:function(ev){S.sq=ev.target.value;render();}});
-            araI2.style.paddingLeft="34px";
-            ara2.appendChild(div("arama-ikon",["⌕"]));ara2.appendChild(araI2);
-            c.appendChild(ara2);
-            var liste2=div("",null,{style:"max-height:48vh;overflow-y:auto;"});
-            S.ms.filter(function(m){return !S.ro.find(function(r){return r.mid===m.id;})&&(!S.sq||m.ad.toLowerCase().indexOf(S.sq.toLowerCase())>=0);}).forEach(function(m){
-                liste2.appendChild(musteriKart(m,function(){
-                    if(S.ro.length>=8){showT("Maks 8!",true);return;}
-                    sRo(S.ro.concat([{mid:m.id,du:"bekliyor"}]));S.mod=null;showT("Eklendi");
-                }));
-            });
-            c.appendChild(liste2);
-            return c;
-        },[btn("Kapat",function(){S.mod=null;render();},"btn btn-ghost btn-full")]));
-    }
-    
-    if(S.mod==="borcyapistir"){
-        app.appendChild(modal("Excel Borc Yapistir",function(){
-            var c=div("");
-            c.appendChild(div("f13 text-muted mb12",["Excel kopyaladiginiz borc tablosunu asagiya yapistirin:"]));\n
-            var ta=h("textarea",{className:"input",rows:"8",placeholder:"Excel kopyala yapistir..."},[]);\n
-            ta.oninput=function(ev){S.borcMetin=ev.target.value;};
-            c.appendChild(ta);
-            var info=div("f11 text-muted",["Not: MUSTERI_NO ve TOTAL_BALANCE sutunlari gerekli"]);
-            info.style.marginTop="8px";
-            c.appendChild(info);
-            var yb=btn("Guncelle",function(){borcYapistir(S.borcMetin);},"btn btn-primary btn-full");
-            yb.style.marginTop="10px";
-            c.appendChild(yb);
-            return c;
-        },[btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost")]));
-    }
-    
-    if(S.mod==="yedek"){
-        app.appendChild(modal("Yedek Kopyala",function(){
-            var c=div("");
-            c.appendChild(div("f13 text-muted mb12",["Asagidaki metni kopyalayip Notes uygulamasina yapistirin:"]));
-            var ta=h("textarea",{className:"input",rows:"4",readOnly:true},[S.yedekMetin]);
-            c.appendChild(ta);
-            var cb=btn("Kopyala",function(){navigator.clipboard.writeText(S.yedekMetin).then(function(){showT("Kopyalandi!");S.mod=null;render();});},"btn btn-primary btn-full");
-            cb.style.marginTop="10px";
-            c.appendChild(cb);
-            return c;
-        },[btn("Kapat",function(){S.mod=null;render();},"btn btn-ghost")]));
-    }
-    
-    if(S.mod==="ice"){
-        app.appendChild(modal("Yedek Yukle",function(){
-            var c=div("");
-            c.appendChild(div("f13 text-muted mb12",["Notes yedek metnini asagiya yapistirin:"]));\n
-            var ta=h("textarea",{className:"input",rows:"5",placeholder:"Yedek metnini buraya yapistirin..."},[]);
-            ta.oninput=function(ev){S.iceMetin=ev.target.value;};
-            c.appendChild(ta);
-            var yb=btn("Yukle",function(){iceAktarMetin(S.iceMetin);},"btn btn-primary btn-full");
-            yb.style.marginTop="10px";
-            c.appendChild(yb);
-            return c;
-        },[btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost")]));
-    }
-    
-    // Toast
-    if(S.tst){
-        var toast=div("toast",[S.tst.msg]);
-        toast.style.background=S.tst.err?"#c1121f":"#1e3a5f";
-        app.appendChild(toast);
-    }
+// Overlay liste modal
+function ListModal(id,title,liste){
+if(mod!==id)return null;
+return e(“div”,{onClick:function(ev){if(ev.target===ev.currentTarget)setMod(null);},style:{position:“fixed”,inset:0,background:“rgba(0,0,0,.5)”,zIndex:500,display:“flex”,alignItems:“flex-end”,justifyContent:“center”}},
+e(“div”,{style:{background:”#fff”,borderRadius:“20px 20px 0 0”,padding:“20px 20px 36px”,width:“100%”,maxWidth:700,maxHeight:“88vh”,overflowY:“auto”}},
+e(“div”,{style:{width:40,height:4,background:”#e2e8f0”,borderRadius:20,margin:“0 auto 18px”}}),
+e(“div”,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:16}},
+e(“div”,{style:{fontSize:18,fontWeight:800}},title),
+Btn(“Kapat”,function(){setMod(null);},“g”,true)
+),
+liste.map(function(m){return MKart(m,function(){setAid(m.id);setMod(“detay”);});})
+)
+);
 }
 
-// Başlat
-try {
-render();
-} catch(e) {
-document.getElementById("app").innerHTML = "<div style=\"padding:20px;color:red;background:#fff;font-size:14px;\"><b>HATA:</b><br>" + e.message + "<br><br>" + e.stack.replace(/\n/g,"<br>") + "</div>";
+var bitti=ro.filter(function(r){return r.du===“tamamlandi”;}).length;
+var bl2=ms.filter(function(m){return m.blocking===2;});
+var gecikmeMs=ms.filter(function(m){return borcDurum(m)===“gecikme”;});
+var DB={bekliyor:”#fef3d8”,ziyarette:”#dceaf3”,tamamlandi:”#d8f3dc”,sonra:”#fde8e2”};
+var DC={bekliyor:”#e9a020”,ziyarette:”#1e3a5f”,tamamlandi:”#1e3a5f”,sonra:”#e76f51”};
+var DT={bekliyor:“Bekliyor”,ziyarette:“Ziyarette”,tamamlandi:“Bitti”,sonra:“Sonra”};
+var now=new Date();
+
+function ayBasi(){
+var now=new Date();
+return new Date(now.getFullYear(),now.getMonth(),1).toISOString().split(“T”)[0];
+}
+
+function buAyZiyaret(m){
+var ab=ayBasi();
+return zs.filter(function(z){return z.musteriId===m.id&&z.tarih>=ab;}).length;
+}
+
+function kampanyaVar(m){
+return ks.some(function(k){return KH[k.kategori].indexOf(m.brans)>=0;});
+}
+
+function rotaFiltre(m){
+if(m.blocking===7)return false;
+var ziyaret=buAyZiyaret(m);
+if(ziyaret===0)return true;
+if(kampanyaVar(m)&&ziyaret<3)return true;
+return false;
+}
+
+function otomatikRota(){
+var gun=new Date().getDay(),bm={1:[1,2],2:[3,4],3:[5,6],4:[7,8],5:[9,10]},b=bm[gun]||[1,10];
+var havuz=ms.filter(function(m){return m.konum>=b[0]&&m.konum<=b[1]&&rotaFiltre(m);}).map(function(m){return{m:m,p:mPuan(m,ro,ms)};}).sort(function(a,c){return c.p-a.p;});
+if(havuz.length<8)havuz=ms.filter(function(m){return rotaFiltre(m);}).map(function(m){return{m:m,p:mPuan(m,ro,ms)};}).sort(function(a,c){return c.p-a.p;});
+sRo(havuz.slice(0,8).map(function(x){return{mid:x.m.id,du:“bekliyor”};}));
+showT(ro.length+” musteri secildi”);
+}
+
+function rotaSirala(liste){
+var sira=rotaSira;
+if(sira===“bakiye”)return liste.slice().sort(function(a,b){var ag=borcDurum(a.m)===“gecikme”?1:0,bg=borcDurum(b.m)===“gecikme”?1:0;if(bg!==ag)return bg-ag;return(b.m.totalOverdue||b.m.borc||0)-(a.m.totalOverdue||a.m.borc||0);});
+if(sira===“adres”)return liste.slice().sort(function(a,b){return(a.m.konum||5)-(b.m.konum||5);});
+if(sira===“kampanya”){
+return liste.slice().sort(function(a,b){
+var ak=ks.filter(function(k){return KH[k.kategori].indexOf(a.m.brans)>=0;}).length;
+var bk=ks.filter(function(k){return KH[k.kategori].indexOf(b.m.brans)>=0;}).length;
+return bk-ak;
+});
+}
+return liste;
+}
+
+function adresSablonIndir(){
+var satirlar=[“Musteri No,Musteri Adi,Adres,Telefon,Konum (1-10)”];
+ms.forEach(function(m){
+satirlar.push([m.id,m.ad.replace(/,/g,” “),m.adres||””,m.tel||””,m.konum||5].join(”,”));
+});
+var csv=satirlar.join(”\n”);
+var blob=new Blob([csv],{type:“text/csv;charset=utf-8;”});
+var url=URL.createObjectURL(blob);
+var a=document.createElement(“a”);
+a.href=url;a.download=“metro_adres_sablonu.csv”;
+document.body.appendChild(a);a.click();document.body.removeChild(a);
+URL.revokeObjectURL(url);
+showT(“Sablon indirildi!”);
+}
+
+function adresExcelYukle(e){
+var file=e.target.files[0];
+if(!file)return;
+var reader=new FileReader();
+reader.onload=function(ev){
+try{
+var text=ev.target.result;
+var lines=text.split(”\n”);
+if(lines.length<2){showT(“Dosya bos!”,true);return;}
+var headers=lines[0].split(”,”).map(function(h){return h.trim().replace(new RegExp(String.fromCharCode(34),“g”),””).toLowerCase();});
+var noIdx=headers.findIndex(function(h){return h.includes(“no”);});
+var adIdx=headers.findIndex(function(h){return h.includes(“adi”)||h.includes(“ad”);});
+var adrIdx=headers.findIndex(function(h){return h.includes(“adres”);});
+var telIdx=headers.findIndex(function(h){return h.includes(“tel”);});
+var konIdx=headers.findIndex(function(h){return h.includes(“konum”);});
+if(adrIdx<0){showT(“Adres kolonu bulunamadi!”,true);return;}
+var updates={};
+for(var i=1;i<lines.length;i++){
+var cols=lines[i].split(”,”);
+if(cols.length<2)continue;
+var musNo=noIdx>=0?cols[noIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim():””;
+var musAd=adIdx>=0?cols[adIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim().toUpperCase():””;
+var adres=adrIdx>=0?cols[adrIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim():””;
+var tel=telIdx>=0?cols[telIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim():””;
+var konum=konIdx>=0?parseInt(cols[konIdx])||5:5;
+if(musNo)updates[musNo]={adres:adres,tel:tel,konum:konum};
+else if(musAd)updates[musAd]={adres:adres,tel:tel,konum:konum};
+}
+var updated=0;
+var yeni=ms.map(function(m){
+var byNo=updates[String(m.id)];
+var byAd=updates[m.ad.toUpperCase().trim()];
+var upd=byNo||byAd;
+if(upd&&upd.adres){updated++;return Object.assign({},m,upd);}
+return m;
+});
+sMs(yeni);
+showT(updated+” musteri adresi guncellendi!”);
+}catch(err){showT(“Hata: “+err.message,true);}
+};
+reader.readAsText(file,“UTF-8”);
+e.target.value=””;
+}
+
+function borcYapistir(metin){
+if(!metin.trim()){showT(“Metin bos!”,true);return;}
+try{
+var satirlar=metin.trim().split(”\n”);
+if(satirlar.length<2){showT(“En az 2 satir gerekli!”,true);return;}
+var ayrac=satirlar[0].indexOf(”\t”)>=0?”\t”:”,”;
+var headers=satirlar[0].split(ayrac).map(function(h){return h.trim().replace(new RegExp(String.fromCharCode(34),“g”),””).toUpperCase();});
+var noIdx=headers.findIndex(function(h){return h.includes(“MUSTERI_NO”)||h.includes(“MUSTERI NO”);});
+var balIdx=headers.findIndex(function(h){return h.includes(“TOTAL_BALANCE”)||h.includes(“BALANCE”)||h.includes(“BAKIYE”);});
+var ovdIdx=headers.findIndex(function(h){return h.includes(“OVER_DUE”)||h.includes(“OVERDUE”)||h.includes(“GECIKME”);});
+var blkIdx=headers.findIndex(function(h){return h.includes(“BLOCKING”);});
+var vadeIdx=headers.findIndex(function(h){return h.includes(“VADE”);});
+if(balIdx<0){showT(“Bakiye kolonu bulunamadi!”,true);return;}
+if(noIdx<0){showT(“Musteri no kolonu bulunamadi!”,true);return;}
+var updates={};
+for(var i=1;i<satirlar.length;i++){
+var cols=satirlar[i].split(ayrac);
+if(cols.length<2)continue;
+var musNo=cols[noIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim();
+var bal=parseFloat(cols[balIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).replace(/,/g,”.”).trim())||0;
+var ovd=ovdIdx>=0?(parseFloat(cols[ovdIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).replace(/,/g,”.”).trim())||0):0;
+var blk=blkIdx>=0?(parseInt(cols[blkIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim())||0):0;
+var vadeRaw=vadeIdx>=0?cols[vadeIdx].replace(new RegExp(String.fromCharCode(34),“g”),””).trim():“30”;
+var vade=vadeRaw.startsWith(“F”)?30:(parseInt(vadeRaw)||30);
+if(musNo)updates[musNo]={borc:bal,totalOverdue:ovd,blocking:blk,vade:vade,borcTarihi:bal>0?today():””};
+}
+var updated=0;
+var yeni=ms.map(function(m){var upd=updates[String(m.id)];if(upd){updated++;return Object.assign({},m,upd);}return m;});
+sMs(yeni);setMod(null);
+showT(updated+” musteri borcu guncellendi!”);
+}catch(err){showT(“Hata: “+err.message,true);}
+}
+
+function mapsAc(m){
+var adres=m.adres||m.ad;
+var url=“https://maps.google.com/?q=”+encodeURIComponent(adres+”, Istanbul, Turkiye”);
+var a=document.createElement(“a”);
+a.href=url;
+a.target=”_blank”;
+a.rel=“noopener”;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+
+function teklifAc(){
+if(!AM)return;
+var kl=ks.filter(function(k){return KH[k.kategori].indexOf(AM.brans)>=0;});
+var bd=borcDurum(AM),bl=blokInfo(AM.blocking);
+var kalan=kacGunKaldi(AM);
+var wa=“Merhaba “+AM.ad+”!\n\nMetro Market Bagdat Caddesi kampanyalar:\n\n”;
+var satir;kl.forEach(function(k){var ind=k.normalFiyat>0?Math.round((1-k.kampFiyat/k.normalFiyat)*100):0;satir=k.urun+”\n  “+fPara(k.kampFiyat);if(k.normalFiyat>0)satir+=” (normal “+fPara(k.normalFiyat)+”)”;if(ind>0)satir+=” %”+ind+” indirim”;satir+=”\n”;if(k.aciklama)satir+=”  “+k.aciklama+”\n”;if(k.tarih)satir+=”  Son: “+fTarih(k.tarih)+”\n”;satir+=”\n”;wa+=satir;});
+if(!kl.length)wa+=“Bu hafta ozel teklifler icin gorusmek isterim!\n\n”;
+if(AM.borc>0&&bd===“gecikme”)wa+=”—\nBakiye: “+fPara(AM.borc)+” - Lutfen odeme yapmanizi rica ederiz.\n\n”;
+wa+=“Iyi calismalar!\nMetro Market”;
+// Vade yaklasan metin
+var vadeWa=””;
+if(AM.borc>0&&kalan>=0&&kalan<=7){
+vadeWa=“Sayin “+AM.ad+”,\n\nMetro Market Bagdat Caddesi olarak size hatirlatmak istedigimiz bir husus bulunmaktadir.\n\n”+fPara(AM.borc)+” tutarindaki bakiyenizin vadesi “+kalan+” gun sonra dolmaktadir.\n\nOdemenizi zamaninda yapmanizi rica eder, iyi calismalar dileriz.\n\nMetro Market - Bagdat Caddesi”;
+} else if(AM.borc>0&&bd===“gecikme”){
+vadeWa=“Sayin “+AM.ad+”,\n\nMetro Market Bagdat Caddesi olarak “+fPara(AM.borc)+” tutarindaki bakiyenizin “+gecGun(AM)+” gundur vadesi gecmis oldugunu hatirlatmak isteriz.\n\nEn kisa surede odeme yapmanizi rica eder, iyi calismalar dileriz.\n\nMetro Market - Bagdat Caddesi”;
+}
+var yuz=“SUNUM NOTU\n”+AM.ad+”\n”+AM.brans+”\nMTD: “+fPara(AM.salesMTD)+” YTD: “+fPara(AM.salesYTD)+”\n”+(bl?bl.l+”\n”:””)+”—\n”;
+if(kl.length)kl.forEach(function(k,i){var ind=k.normalFiyat>0?Math.round((1-k.kampFiyat/k.normalFiyat)*100):0;yuz+=(i+1)+”. “+k.urun+” “+fPara(k.kampFiyat)+(ind>0?” %”+ind:””)+”\n”+(k.tarih?”   Biter: “+fTarih(k.tarih)+”\n”:””)+(k.aciklama?”   “+k.aciklama+”\n”:””)+””;});
+else yuz+=“Aktif kampanya yok.\n”;
+if(AM.borc>0)yuz+=”—\nBakiye: “+fPara(AM.borc)+(AM.totalOverdue>0?” | Gecikme: “+fPara(AM.totalOverdue):””)+”\n”+(bd===“gecikme”?gecGun(AM)+” gun gecikmis”:kalan<=7?“Vade “+kalan+” gun sonra”:“Vade OK”);
+setTw({wa:wa,yuz:yuz,vade:vadeWa});setTm(“wa”);setMod(“teklif”);
+}
+
+return e(“div”,{style:{background:”#0f172a”,minHeight:“100vh”,fontFamily:”-apple-system,sans-serif”,fontSize:14}},
+
+```
+// HEADER
+e("div",{style:{background:"#1e3a5f",padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100}},
+  e("div",{style:{display:"flex",alignItems:"center",gap:10}},
+    e("div",{style:{background:"#fff",color:"#1e3a5f",width:32,height:32,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:14}},"M"),
+    e("div",null,e("div",{style:{color:"#fff",fontWeight:800,fontSize:16}},"Metro Saha"),e("div",{style:{color:"rgba(255,255,255,.5)",fontSize:10}},"Bagdat Caddesi - "+ms.length+" musteri"))
+  ),
+  e("div",{style:{color:"rgba(255,255,255,.65)",fontSize:10,textAlign:"right",lineHeight:1.5}},GUNLER[now.getDay()],e("br"),now.toLocaleDateString("tr-TR"))
+),
+
+// NAV
+e("div",{style:{background:"#fff",borderBottom:"2px solid #e2e8f0",display:"flex",overflowX:"auto",position:"sticky",top:56,zIndex:99}},
+  [["o","Ozet"],["r","Rota"],["m","Musteri"],["k","Kampanya"],["b","Borc"],["rp","Rapor"]].map(function(x){
+    return e("div",{key:x[0],onClick:function(){setPg(x[0]);},style:{padding:"11px 14px",fontSize:11,fontWeight:700,color:pg===x[0]?"#1e3a5f":"#64748b",cursor:"pointer",whiteSpace:"nowrap",borderBottom:pg===x[0]?"2px solid #1e3a5f":"2px solid transparent",marginBottom:-2}},x[1]);
+  })
+),
+
+e("div",{style:{padding:14,maxWidth:700,margin:"0 auto"}},
+
+  // OZET
+  pg==="o"&&e("div",null,
+    e("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}},
+      // Bugun ziyaret - tiklanabilir
+      e("div",{onClick:function(){if(ro.length>0){setMod("oz-ziyaret");}},style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:12,padding:14,cursor:ro.length>0?"pointer":"default"}},
+        e("div",{style:{fontSize:24,fontWeight:800,color:"#1e3a5f",lineHeight:1,marginBottom:2}},bitti+"/"+ro.length),
+        e("div",{style:{fontSize:10,color:"#64748b",textTransform:"uppercase"}},"Bugun Ziyaret"),
+        e("div",{style:{background:"#f8fafc",borderRadius:20,height:5,overflow:"hidden",marginTop:8}},e("div",{style:{height:"100%",borderRadius:20,background:"#1e3a5f",width:Math.min(100,(bitti/(ro.length||1))*100)+"%"}}))
+      ),
+      // Tahsilat bekleyen - tiklanabilir
+      e("div",{onClick:function(){if(bl2.length>0){setMod("oz-tahsilat");}},style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:12,padding:14,cursor:bl2.length>0?"pointer":"default"}},
+        e("div",{style:{fontSize:24,fontWeight:800,color:"#c1121f",lineHeight:1,marginBottom:2}},bl2.length),
+        e("div",{style:{fontSize:10,color:"#64748b",textTransform:"uppercase"}},"Tahsilat Bekleyen"),
+        bl2.length>0&&e("div",{style:{fontSize:10,color:"#c1121f",marginTop:4}},fPara(bl2.reduce(function(a,m){return a+(m.borc||0);},0)))
+      ),
+      // Toplam musteri - tiklanabilir
+      e("div",{onClick:function(){setMod("oz-musteri");},style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:12,padding:14,cursor:"pointer"}},
+        e("div",{style:{fontSize:24,fontWeight:800,color:"#1e3a5f",lineHeight:1,marginBottom:2}},ms.length),
+        e("div",{style:{fontSize:10,color:"#64748b",textTransform:"uppercase"}},"Toplam Musteri"),
+        e("div",{style:{fontSize:10,color:"#64748b",marginTop:4}},ms.filter(function(m){return m.borc>0;}).length+" borclu")
+      ),
+      // Aktif kampanya - tiklanabilir
+      e("div",{onClick:function(){if(ks.length>0){setMod("oz-kampanya");}},style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:12,padding:14,cursor:ks.length>0?"pointer":"default"}},
+        e("div",{style:{fontSize:24,fontWeight:800,color:"#e9a020",lineHeight:1,marginBottom:2}},ks.length),
+        e("div",{style:{fontSize:10,color:"#64748b",textTransform:"uppercase"}},"Aktif Kampanya")
+      )
+    ),
+    bl2.length>0&&e("div",{style:{background:"#fef2f2",border:"1.5px solid #fca5a5",borderRadius:14,padding:16,marginBottom:14}},
+      e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#c1121f",marginBottom:10}},"Tahsilat Bekleyen ("+bl2.length+")"),
+      bl2.slice(0,3).map(function(m){return e("div",{key:m.id,onClick:function(){setAid(m.id);setMod("detay");},style:{background:"#fff",border:"1.5px solid #fca5a5",borderRadius:9,padding:"9px 11px",marginBottom:6,cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center"}},e("div",null,e("div",{style:{fontWeight:700,fontSize:13}},m.ad),e("div",{style:{fontSize:11,color:"#c1121f"}},"Bakiye: "+fPara(m.borc)+(m.totalOverdue>0?" | Gecikme: "+fPara(m.totalOverdue):""))),Badge(m.brans,true));})
+    ),
+    e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginBottom:14}},
+      e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}},"Bugunku Rota",Btn("Tumu",function(){setPg("r");},"g",true)),
+      ro.length===0?e("div",{style:{textAlign:"center",padding:"20px 0",color:"#64748b",fontSize:13}},"Rota sekmesinden olustur"):
+      ro.slice(0,4).map(function(r,i){var m=ms.find(function(x){return x.id===r.mid;});if(!m)return null;return e("div",{key:r.mid,style:{display:"flex",alignItems:"center",gap:8,marginBottom:7,background:"#0f172a",borderRadius:9,padding:"9px 11px"}},e("div",{style:{width:26,height:26,borderRadius:6,background:"#1e3a5f",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,flexShrink:0}},i+1),e("div",{style:{flex:1,minWidth:0}},e("div",{style:{fontWeight:700,fontSize:13,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},m.ad),e("div",{style:{fontSize:10,color:"#64748b"}},m.brans)),e("span",{style:{background:DB[r.du]||"#f0f0f0",color:DC[r.du]||"#555",padding:"3px 8px",borderRadius:20,fontSize:10,fontWeight:700}},DT[r.du]||r.du));})
+    ),
+    ks.length>0&&e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16}},
+      e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:10}},"Aktif Kampanyalar"),
+      ks.slice(0,3).map(function(k){return e("div",{key:k.id,style:{background:"#f8fafc",borderRadius:9,padding:"9px 11px",marginBottom:6}},e("div",{style:{fontWeight:700,fontSize:12}},k.urun),e("div",{style:{fontSize:11,color:"#64748b"}},fPara(k.kampFiyat)+" - "+fTarih(k.tarih)));})
+    )
+  ),
+
+  // ROTA
+  pg==="r"&&e("div",null,
+    e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginBottom:14}},
+      e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}},
+        e("span",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b"}},"Gunluk Rota "+ro.length+"/8"),
+        e("div",{style:{display:"flex",gap:6}},Btn("Otomatik",otomatikRota,"g",true),Btn("+ Ekle",function(){setMod("re");},null,true))
+      ),
+      // Siralama secimi
+      e("div",{style:{display:"flex",gap:6,marginBottom:10,flexWrap:"wrap"}},
+        e("span",{style:{fontSize:11,color:"#64748b",lineHeight:"28px"}},"Sirala:"),
+        [["puan","Akilli"],["adres","Adres"],["bakiye","Bakiye"],["kampanya","Kampanya"]].map(function(x){
+          return e("button",{key:x[0],onClick:function(){setRotaSira(x[0]);},style:{padding:"4px 10px",borderRadius:20,border:"1.5px solid "+(rotaSira===x[0]?"#1e3a5f":"#e2e8f0"),background:rotaSira===x[0]?"#1e3a5f":"transparent",color:rotaSira===x[0]?"#fff":"#64748b",fontSize:11,fontWeight:700,cursor:"pointer"}},x[1]);
+        })
+      ),
+      e("div",{style:{background:"#f8fafc",borderRadius:20,height:5,overflow:"hidden",marginBottom:14}},e("div",{style:{height:"100%",borderRadius:20,background:"#1e3a5f",width:Math.min(100,ro.length/8*100)+"%"}})),
+      ro.length===0&&rotaSira!=="bakiye"?e("div",{style:{textAlign:"center",padding:"28px 0",color:"#64748b",fontSize:13}},"Otomatik ile en iyi 8 musteri secilsin"):
+      rotaSira==="bakiye"
+      ? ms.slice().sort(function(a,b){var ag=borcDurum(a)==="gecikme"?1:0,bg=borcDurum(b)==="gecikme"?1:0;if(bg!==ag)return bg-ag;return(b.totalOverdue||b.borc||0)-(a.totalOverdue||a.borc||0);}).map(function(m){return e("div",{key:m.id,onClick:function(){if(ro.find(function(r){return r.mid===m.id;})){setAid(m.id);setMod("detay");}else if(ro.length<8){sRo(ro.concat([{mid:m.id,du:"bekliyor"}]));showT("Rotaya eklendi");}else{showT("Maks 8!",true);}},style:{background:ro.find(function(r){return r.mid===m.id;})?"#d8f3dc":"#fff",border:"1.5px solid "+(borcDurum(m)==="gecikme"?"#c1121f":m.borc>0?"#e9a020":"#e2e8f0"),borderRadius:11,padding:"11px 12px",marginBottom:7,display:"flex",alignItems:"center",gap:8,cursor:"pointer"}},
+        e("div",{style:{width:28,height:28,borderRadius:7,background:borcDurum(m)==="gecikme"?"#c1121f":m.borc>0?"#e9a020":"#1e3a5f",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700,flexShrink:0}},borcDurum(m)==="gecikme"?"GEC":m.borc>0?"VAD":"+"),
+        e("div",{style:{flex:1,minWidth:0}},
+          e("div",{style:{fontWeight:700,fontSize:13}},m.ad),
+          e("div",{style:{fontSize:11,color:"#64748b"}},(m.bransDetay||m.brans)),
+          e("div",{style:{display:"flex",gap:6,marginTop:2}},
+            m.borc>0&&e("span",{style:{fontSize:11,fontFamily:"monospace",color:borcDurum(m)==="gecikme"?"#c1121f":"#e9a020",fontWeight:700}},fPara(m.borc)),
+            m.totalOverdue>0&&e("span",{style:{fontSize:10,color:"#c1121f"}},fPara(m.totalOverdue)+" gecikme")
+          )
+        ),
+        ro.find(function(r){return r.mid===m.id;})&&e("span",{style:{background:"#1e3a5f",color:"#fff",padding:"2px 8px",borderRadius:20,fontSize:10,fontWeight:700}},"Rotada")
+      );})
+      : rotaSirala(ro.map(function(r){return ms.find(function(x){return x.id===r.mid;})||null;}).filter(Boolean).map(function(m,i){var r=ro.find(function(x){return x.mid===m.id;});return {m:m,r:r,i:i};})).map(function(item,idx){
+        var m=item.m,r=item.r;
+        if(!r)return null;
+        var bl=blokInfo(m.blocking);
+        return e("div",{key:m.id,style:{background:"#fff",border:"1.5px solid "+(m.blocking===2?"#c1121f":"#e2e8f0"),borderRadius:11,padding:"11px 12px",marginBottom:7,display:"flex",alignItems:"center",gap:8}},
+          e("div",{style:{width:28,height:28,borderRadius:7,background:"#1e3a5f",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,flexShrink:0}},idx+1),
+          e("div",{style:{flex:1,minWidth:0,cursor:"pointer"},onClick:function(){setAid(m.id);setMod("detay");}},
+            e("div",{style:{fontWeight:700,fontSize:13}},m.ad),
+            e("div",{style:{fontSize:11,color:"#64748b",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},bl?bl.l:(m.adres||m.bransDetay||m.brans)),
+            e("div",{style:{marginTop:3,display:"flex",gap:4,flexWrap:"wrap"}},
+              Badge(m.brans,true),
+              m.borc>0&&e("span",{style:{fontSize:10,color:borcDurum(m)==="gecikme"?"#c1121f":"#e9a020",fontFamily:"monospace"}},fPara(m.borc)),
+              buAyZiyaret(m)>0&&e("span",{style:{background:"#dcfce7",color:"#166534",padding:"2px 6px",borderRadius:20,fontSize:9,fontWeight:700}},buAyZiyaret(m)+"x ziyaret")
+            )
+          ),
+          e("div",{style:{display:"flex",gap:4,flexShrink:0,alignItems:"center",flexDirection:"column"}},
+            e("select",{value:r.du,onChange:function(ev){var nd=ev.target.value;sRo(ro.map(function(x){return x.mid===m.id?Object.assign({},x,{du:nd}):x;}));if(nd==="tamamlandi"){setAid(m.id);setZf({sonuc:"siparis",tutar:"",not:""});setMod("ziyaret");}},style:{background:DB[r.du]||"#f0f0f0",color:DC[r.du]||"#555",border:"none",borderRadius:16,padding:"4px 8px",fontSize:10,fontWeight:700,cursor:"pointer",WebkitAppearance:"none"}},
+              e("option",{value:"bekliyor"},"Bekliyor"),e("option",{value:"ziyarette"},"Ziyarette"),e("option",{value:"tamamlandi"},"Bitti"),e("option",{value:"sonra"},"Sonra")
+            ),
+            e("div",{style:{display:"flex",gap:4}},
+              m.adres&&e("button",{onClick:function(){mapsAc(m);},style:{background:"#dbeafe",border:"none",borderRadius:6,padding:"3px 7px",cursor:"pointer",fontSize:10,color:"#1e3a5f",fontWeight:700}},"Maps"),
+              e("button",{onClick:function(){sRo(ro.filter(function(x){return x.mid!==m.id;}));showT("Cikarildi");},style:{background:"transparent",border:"1.5px solid #e2e8f0",borderRadius:6,padding:"3px 7px",cursor:"pointer",fontSize:10,color:"#64748b"}},"X"),
+              e("button",{onClick:function(){
+                var obj={id:"Z"+Date.now(),musteriId:m.id,tarih:today(),sonuc:"siparis",tutar:0,not:""};
+                sZs(zs.concat([obj]));
+                sMs(ms.map(function(x){return x.id===m.id?Object.assign({},x,{sonZiyaret:today()}):x;}));
+                sRo(ro.map(function(x){return x.mid===m.id?Object.assign({},x,{du:"tamamlandi"}):x;}));
+                showT("Ziyaret kaydedildi!");
+              },style:{background:"#10b981",border:"none",borderRadius:6,padding:"3px 7px",cursor:"pointer",fontSize:10,color:"#fff",fontWeight:700}},"Bitti!")
+            )
+          )
+        );
+      })
+    ),
+    // Kampanya oneri
+    (function(){
+      var roM=ro.map(function(r){return ms.find(function(x){return x.id===r.mid;});}).filter(Boolean);
+      var ilg=ks.filter(function(k){return roM.some(function(m){return KH[k.kategori].indexOf(m.brans)>=0;});});
+      if(!ilg.length)return null;
+      return e("div",{style:{background:"#eff6ff",border:"1.5px solid #bfdbfe",borderRadius:14,padding:16}},
+        e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#1e3a5f",marginBottom:12}},"Bugun Sunabilecegim Kampanyalar"),
+        ilg.map(function(k){var il=roM.filter(function(m){return KH[k.kategori].indexOf(m.brans)>=0;});var ind=k.normalFiyat>0?Math.round((1-k.kampFiyat/k.normalFiyat)*100):0;return e("div",{key:k.id,style:{marginBottom:8,paddingBottom:8,borderBottom:"1px solid rgba(0,0,0,.07)"}},e("div",{style:{fontWeight:700,fontSize:13,marginBottom:4}},k.urun+" "+fPara(k.kampFiyat)+(ind>0?" (%"+ind+" ind)":"")),il.map(function(m){return e("div",{key:m.id,style:{fontSize:12,color:"#1e40af",paddingLeft:10}},"- "+m.ad);}));})
+      );
+    })()
+  ),
+
+  // MUSTERI
+  pg==="m"&&e("div",null,
+    e("div",{style:{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap"}},
+      Btn("+ Ekle",function(){setMod("me");},null,true),
+      e("select",{value:fb,onChange:function(ev){setFb(ev.target.value);},style:{flex:1,fontFamily:"inherit",background:"#f8fafc",border:"1.5px solid #e2ddd4",borderRadius:9,color:"#1e293b",fontSize:12,padding:"6px 10px"}},
+        e("option",{value:""},"Tum Branslar"),
+        ["Restoran","Kafe/Pastane","Fast Food","Bar/Meyhane","Otel","Kurumsal Mutfak"].map(function(b){return e("option",{key:b},b);})
+      )
+    ),
+    e("div",{style:{position:"relative",marginBottom:10}},
+      e("span",{style:{position:"absolute",left:11,top:"50%",transform:"translateY(-50%)",color:"#64748b"}},"?"),
+      e("input",{value:sq,onChange:function(ev){setSq(ev.target.value);},placeholder:"Musteri ara...",style:Object.assign({},inp,{paddingLeft:34})})
+    ),
+    e("div",{style:{fontSize:12,color:"#64748b",marginBottom:8}},ms.filter(function(m){return(!fb||m.brans===fb)&&(!sq||m.ad.toLowerCase().indexOf(sq.toLowerCase())>=0);}).length+" musteri"),
+    ms.filter(function(m){return(!fb||m.brans===fb)&&(!sq||m.ad.toLowerCase().indexOf(sq.toLowerCase())>=0);}).map(function(m){return MKart(m,function(){setAid(m.id);setMod("detay");});})
+  ),
+
+  // KAMPANYA
+  pg==="k"&&e("div",null,
+    e("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}},e("span",{style:{fontWeight:800,fontSize:15}},"Aktif Kampanyalar"),Btn("+ Kampanya",function(){setKf({urun:"",normal:"",kamp:"",kat:"herkes",brans:"herkes",tarih:"",acik:""});setMod("ke");},null,true)),
+    ks.length===0?e("div",{style:{textAlign:"center",padding:32,color:"#64748b"}},"Metro katalogunden kampanya ekle"):
+    ks.map(function(k){return e("div",{key:k.id,style:{background:"#f8fafc",border:"1.5px solid #e2ddd4",borderRadius:10,padding:"12px 13px",marginBottom:8,display:"flex",gap:8,alignItems:"flex-start"}},
+      e("div",{style:{flex:1}},
+        e("div",{style:{fontWeight:700,fontSize:13}},k.urun),
+        e("div",{style:{fontSize:11,color:"#64748b",fontFamily:"monospace"}},fPara(k.kampFiyat)+" / "+fPara(k.normalFiyat)+" - "+fTarih(k.tarih)),
+        k.aciklama&&e("div",{style:{fontSize:11,color:"#64748b"}},k.aciklama),
+        e("div",{style:{marginTop:5,display:"flex",gap:3,flexWrap:"wrap"}},
+          k.brans&&k.brans!=="herkes"?Badge(k.brans,true):KH[k.kategori].map(function(b){return Badge(b,true);})
+        )
+      ),
+      e("button",{onClick:function(){sKs(ks.filter(function(x){return x.id!==k.id;}));showT("Silindi");},style:{background:"transparent",border:"1.5px solid #e2ddd4",borderRadius:6,padding:"4px 7px",cursor:"pointer",fontSize:11,color:"#64748b",flexShrink:0}},"X")
+    );}),
+    e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginTop:8}},
+      e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:12}},"Kim Alir?"),
+      ms.filter(function(m){return ks.some(function(k){return KH[k.kategori].indexOf(m.brans)>=0;});}).slice(0,15).map(function(m){return e("div",{key:m.id,style:{background:"#eff6ff",border:"1.5px solid #bfdbfe",borderRadius:9,padding:"10px 12px",marginBottom:6,display:"flex",alignItems:"center",justifyContent:"space-between",gap:8}},e("div",null,e("div",{style:{fontWeight:700,fontSize:13}},m.ad),e("div",{style:{fontSize:11,color:"#1e3a5f"}},ks.filter(function(k){return KH[k.kategori].indexOf(m.brans)>=0;}).map(function(k){return k.urun;}).join(" - "))),Badge(m.brans,true));})
+    )
+  ),
+
+  // BORC
+  pg==="b"&&e("div",null,
+    e("div",{style:{display:"flex",gap:8,marginBottom:10,flexWrap:"wrap"}},
+      e("select",{value:fbo,onChange:function(ev){setFbo(ev.target.value);},style:{flex:1,fontFamily:"inherit",background:"#f8fafc",border:"1.5px solid #e2ddd4",borderRadius:9,color:"#1e293b",fontSize:13,padding:"7px 10px"}},
+        e("option",{value:"hepsi"},"Tum Borclar"),e("option",{value:"gecikme"},"Gecikmis"),e("option",{value:"vadeli"},"Vadeli"),e("option",{value:"yok"},"Borcsuz")
+      ),
+      Btn("+ Guncelle",function(){setBf({mid:ms[0]?ms[0].id:"",borc:"",vade:"30"});setMod("be");},null,true)
+    ),
+    e("div",{style:{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}},
+      e("label",{style:{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",background:"#1e3a5f",color:"#fff",borderRadius:9,cursor:"pointer",fontSize:11,fontWeight:700}},
+        "Borc Excel Yukle",
+        e("input",{type:"file",accept:".csv",onChange:borcExcelYukle,style:{display:"none"}})
+      ),
+      e("label",{style:{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",background:"#1e3a5f",color:"#fff",borderRadius:9,cursor:"pointer",fontSize:11,fontWeight:700}},
+        "Adres Excel Yukle",
+        e("input",{type:"file",accept:".csv",onChange:adresExcelYukle,style:{display:"none"}})
+      ),
+      Btn("Adres Sablonu Indir",function(){adresSablonIndir();},("g"),true)
+    ),
+    ms.filter(function(m){if(fbo==="gecikme")return borcDurum(m)==="gecikme";if(fbo==="vadeli")return m.borc>0&&borcDurum(m)==="ok";if(fbo==="yok")return!m.borc||m.borc===0;return true;}).sort(function(a,b){return gecGun(b)-gecGun(a)||(b.borc||0)-(a.borc||0);}).map(function(m){return MKart(m,function(){setAid(m.id);setMod("detay");});})
+  ),
+
+  // RAPOR
+  pg==="rp"&&(function(){
+    var bas=new Date();bas.setDate(bas.getDate()-(rp==="hafta"?7:30));
+    var dz=zs.filter(function(z){return z.tarih>=bas.toISOString().split("T")[0];});
+    var sp=dz.filter(function(z){return z.sonuc==="siparis";});
+    var tutar=sp.reduce(function(a,z){return a+(z.tutar||0);},0);
+    return e("div",null,
+      e("div",{style:{display:"flex",gap:8,marginBottom:12}},Btn("Bu Hafta",function(){setRp("hafta");},rp==="hafta"?null:"g",true),Btn("Bu Ay",function(){setRp("ay");},rp==="ay"?null:"g",true)),
+      e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginBottom:14}},e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:12}},"Ziyaret Ozeti"),Row("Toplam Ziyaret",dz.length),Row("Siparis",sp.length,"#1e3a5f"),Row("Donusum","%"+Math.round(sp.length/(dz.length||1)*100),"#1e3a5f"),Row("Toplam Tutar",fPara(tutar),"#1e3a5f"),Row("Tekrar Ara",dz.filter(function(z){return z.sonuc==="tekrar";}).length,"#e76f51")),
+      e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginBottom:14}},e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:12}},"Tahsilat Ozeti"),Row("Odeme Blokeli",bl2.length,"#c1121f"),Row("Gecikmis Borc",gecikmeMs.length,"#e76f51"),Row("Toplam Borclu",ms.filter(function(m){return m.borc>0;}).length,"#e9a020"),Row("Toplam Bakiye",fPara(ms.reduce(function(a,m){return a+(m.borc||0);},0)),"#1e3a5f")),
+      e("div",{style:{background:"#fff",border:"1.5px solid #e2ddd4",borderRadius:14,padding:16,marginBottom:14}},e("div",{style:{fontSize:11,fontWeight:700,textTransform:"uppercase",color:"#64748b",marginBottom:12}},"En Yuksek MTD Ciro"),ms.slice().sort(function(a,b){return(b.salesMTD||0)-(a.salesMTD||0);}).slice(0,5).map(function(m,i){return Row(["1.","2.","3.","4.","5."][i]+" "+m.ad,fPara(m.salesMTD),"#1e3a5f");})),
+      Btn("WhatsApp icin Kopyala",function(){var txt="Metro Saha Rapor\nZiyaret: "+dz.length+" Siparis: "+sp.length+"\nTutar: "+fPara(tutar)+"\nTahsilat: "+bl2.length+" musteri\nGecikmis: "+gecikmeMs.length+" musteri";navigator.clipboard.writeText(txt).then(function(){showT("Kopyalandi");}).catch(function(){showT("Hata",true);});},"g",false,true),
+      e("div",{style:{marginTop:10,display:"flex",gap:8,flexWrap:"wrap"}},
+        Btn("Yedek Al (Kopyala)",function(){disaAktar();},"g",true),
+        Btn("Yedek Yukle (Yapistir)",function(){setIceMetin("");setMod("ice");},"g",true)
+      )
+    );
+  })()
+),
+
+// OZET LISTE MODALLARI
+ListModal("oz-ziyaret","Bugunun Rotasi",ro.map(function(r){return ms.find(function(x){return x.id===r.mid;});}).filter(Boolean)),
+ListModal("oz-tahsilat","Tahsilat Bekleyen",bl2),
+ListModal("oz-musteri","Tum Musteriler",ms),
+ListModal("oz-kampanya","Kampanya Alabilecek Musteriler",ms.filter(function(m){return ks.some(function(k){return KH[k.kategori].indexOf(m.brans)>=0;});})),
+
+// DETAY
+Modal("detay",null,
+  AM?e("div",null,
+    e("div",{style:{display:"flex",gap:10,alignItems:"center",marginBottom:16}},
+      e("div",{style:{width:48,height:48,borderRadius:10,background:BB[AM.brans]||"#eee",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:BC[AM.brans]||"#555",flexShrink:0}},ICO[AM.brans]||"?"),
+      e("div",null,
+        e("div",{style:{fontSize:17,fontWeight:800}},AM.ad),
+        e("div",{style:{fontSize:11,color:"#64748b",marginTop:1}},AM.bransDetay||AM.brans),
+        e("div",{style:{display:"flex",gap:4,marginTop:4,flexWrap:"wrap"}},
+          Badge(AM.brans),
+          blokInfo(AM.blocking)?e("span",{style:{background:blokInfo(AM.blocking).bg,color:blokInfo(AM.blocking).c,padding:"3px 8px",borderRadius:20,fontSize:10,fontWeight:700}},blokInfo(AM.blocking).l):null,
+          AM.focusNonFocus==="Focus"?e("span",{style:{background:"#d8f3dc",color:"#1e3a5f",padding:"3px 8px",borderRadius:20,fontSize:10,fontWeight:700}},"Focus"):null
+        )
+      )
+    ),
+    Row("Tel",AM.tel||"-"),
+    Row("Adres",AM.adres||"Girilmemis"),
+    AM.adres&&Row("",e("button",{onClick:function(){mapsAc(AM);},style:{background:"#dbeafe",border:"none",borderRadius:8,padding:"6px 14px",cursor:"pointer",fontSize:12,color:"#1e3a5f",fontWeight:700,marginTop:4}},"Google Maps ta Ac")),
+    Row("MTD Ciro",fPara(AM.salesMTD),"#1e3a5f"),
+    Row("YTD Ciro",fPara(AM.salesYTD),"#1e3a5f"),
+    AM.borc>0?Row("Toplam Bakiye",fPara(AM.borc),borcDurum(AM)==="gecikme"?"#c1121f":"#e9a020"):Row("Borc","Borcsuz","#1e3a5f"),
+    AM.totalOverdue>0?Row("Gecikme",fPara(AM.totalOverdue),"#c1121f"):null,
+    AM.borc>0?Row("Vade",AM.vade+" gun"):null,
+    AM.borc>0?Row("Vade Durumu",(function(){
+      var bd=borcDurum(AM);
+      if(bd==="gecikme")return gecGun(AM)+" gun gecikmis";
+      var kalan=kacGunKaldi(AM);
+      if(kalan<=3)return "KRITIK: "+kalan+" gun kaldi!";
+      if(kalan<=7)return kalan+" gun kaldi (Yaklasıyor)";
+      return kalan+" gun kaldi";
+    })(),(function(){var bd=borcDurum(AM);if(bd==="gecikme")return"#c1121f";var k=kacGunKaldi(AM);return k<=7?"#e9a020":"#1e3a5f";})()):"",
+    Row("Son Ziyaret",fTarih(AM.sonZiyaret)+" ("+gunFarki(AM.sonZiyaret)+" gun)"),
+    ks.filter(function(k){return KH[k.kategori].indexOf(AM.brans)>=0;}).length>0?e("div",{style:{marginTop:12}},
+      e("div",{style:{fontSize:11,fontWeight:700,color:"#64748b",textTransform:"uppercase",marginBottom:8}},"Sunulabilecek Kampanyalar"),
+      ks.filter(function(k){return KH[k.kategori].indexOf(AM.brans)>=0;}).map(function(k){return e("div",{key:k.id,style:{background:"#f8fafc",borderRadius:9,padding:"9px 11px",marginBottom:5,display:"flex",justifyContent:"space-between",alignItems:"center"}},e("div",null,e("div",{style:{fontWeight:700,fontSize:12}},k.urun),e("div",{style:{fontSize:11,color:"#64748b"}},fPara(k.kampFiyat))),Badge(k.brans&&k.brans!=="herkes"?k.brans:AM.brans,true));})
+    ):null
+  ):null,
+  [
+    Btn("Kapat",function(){setMod(null);},"g",true),
+    Btn("Adres",function(){if(AM){setAf({adres:AM.adres||"",tel:AM.tel||"",konum:String(AM.konum||5)});setMod("adres");}},  "g",true),
+    Btn("Teklif",function(){teklifAc();},null,true),
+    Btn("Ziyaret",function(){setZf({sonuc:"siparis",tutar:"",not:""});setMod("ziyaret");},"o",true)
+  ]
+),
+
+// TEKLIF
+Modal("teklif","Fiyat Teklifi",
+  e("div",null,
+    e("div",{style:{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap"}},
+      Btn("WhatsApp",function(){setTm("wa");},tm==="wa"?null:"g",true),
+      Btn("Yuz Yuze",function(){setTm("yuz");},tm==="yuz"?null:"g",true),
+      tw.vade?Btn("Vade Hatirlatma",function(){setTm("vade");},tm==="vade"?null:"g",true):null
+    ),
+    e("div",{style:{background:tm==="wa"?"#e8f5e9":tm==="vade"?"#fff3e0":"#fef3d8",border:"1.5px solid "+(tm==="wa"?"#a5d6a7":tm==="vade"?"#ffb74d":"#f9c74f"),borderRadius:11,padding:13,fontSize:12,lineHeight:1.8,whiteSpace:"pre-wrap",fontFamily:"monospace",color:tm==="wa"?"#1b5e20":tm==="vade"?"#e65100":"#7b4f00",maxHeight:250,overflowY:"auto"}},
+      tm==="wa"?tw.wa:tm==="vade"?tw.vade:tw.yuz
+    )
+  ),
+  [Btn("Kapat",function(){setMod(null);},"g"),Btn("Kopyala",function(){var txt=tm==="wa"?tw.wa:tm==="vade"?tw.vade:tw.yuz;navigator.clipboard.writeText(txt).then(function(){showT("Kopyalandi");}).catch(function(){showT("Hata",true);});})]
+),
+
+// ZIYARET
+Modal("ziyaret","Ziyaret Notu",
+  e("div",null,
+    AM?e("div",{style:{fontSize:13,color:"#64748b",marginBottom:14,fontWeight:600}},AM.ad):null,
+    FG("Sonuc",Sel({value:zf.sonuc,onChange:function(ev){setZf(function(p){return Object.assign({},p,{sonuc:ev.target.value});});}},e("option",{value:"siparis"},"Siparis Verdi"),e("option",{value:"vermedi"},"Vermedi"),e("option",{value:"tekrar"},"Tekrar Ara"))),
+    FG("Tutar (TL)",Inp({type:"number",placeholder:"0",value:zf.tutar,onChange:function(ev){setZf(function(p){return Object.assign({},p,{tutar:ev.target.value});});}})),
+    FG("Not",Txa({rows:3,value:zf.not,onChange:function(ev){setZf(function(p){return Object.assign({},p,{not:ev.target.value});});}}))
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g"),Btn("Kaydet",function(){
+    if(!aid)return;
+    var obj={id:"Z"+Date.now(),musteriId:aid,tarih:today(),sonuc:zf.sonuc,tutar:parseFloat(zf.tutar)||0,not:zf.not};
+    sZs(zs.concat([obj]));
+    sMs(ms.map(function(x){return x.id===aid?Object.assign({},x,{sonZiyaret:today()}):x;}));
+    setMod(null);
+    showT({siparis:"Siparis kaydedildi",vermedi:"Ziyaret kaydedildi",tekrar:"Tekrar ara"}[zf.sonuc]||"Kaydedildi");
+  })]
+),
+
+// ADRES
+Modal("adres","Adres Guncelle",
+  e("div",null,
+    AM?e("div",{style:{fontSize:13,color:"#64748b",marginBottom:14,fontWeight:600}},AM.ad):null,
+    FG("Adres",Inp({placeholder:"Moda Cad. No:12",value:af.adres,onChange:function(ev){setAf(function(p){return Object.assign({},p,{adres:ev.target.value});});}})),
+    FG("Telefon",Inp({placeholder:"05XX...",value:af.tel,onChange:function(ev){setAf(function(p){return Object.assign({},p,{tel:ev.target.value});});}})),
+    FG("Konum (1=Fenerbahce 10=Suadiye)",Inp({type:"number",min:"1",max:"10",value:af.konum,onChange:function(ev){setAf(function(p){return Object.assign({},p,{konum:ev.target.value});});}}))
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g"),Btn("Kaydet",function(){sMs(ms.map(function(x){return x.id===aid?Object.assign({},x,{adres:af.adres,tel:af.tel,konum:parseInt(af.konum)||5}):x;}));setMod(null);showT("Adres kaydedildi");})]
+),
+
+// KAMPANYA EKLE
+Modal("ke","Yeni Kampanya",
+  e("div",null,
+    FG("Urun Adi *",Inp({placeholder:"Zeytinya 5L",value:kf.urun,onChange:function(ev){setKf(function(p){return Object.assign({},p,{urun:ev.target.value});});}})),
+    e("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+      FG("Normal Fiyat",Inp({type:"number",placeholder:"0",value:kf.normal,onChange:function(ev){setKf(function(p){return Object.assign({},p,{normal:ev.target.value});});}})),
+      FG("Kamp Fiyati",Inp({type:"number",placeholder:"0",value:kf.kamp,onChange:function(ev){setKf(function(p){return Object.assign({},p,{kamp:ev.target.value});});}}))
+    ),
+    FG("Son Tarih",Inp({type:"date",value:kf.tarih,onChange:function(ev){setKf(function(p){return Object.assign({},p,{tarih:ev.target.value});});}})),
+    FG("Kategori (Kim alir?)",Sel({value:kf.kat,onChange:function(ev){setKf(function(p){return Object.assign({},p,{kat:ev.target.value});});}},
+      e("option",{value:"herkes"},"Herkes (Tum Branslar)"),e("option",{value:"alkol"},"Alkol"),e("option",{value:"kahve"},"Kahve/Pastane"),e("option",{value:"mutfak"},"Toplu Mutfak"),e("option",{value:"otel"},"Otel"),e("option",{value:"fastfood"},"Fast Food")
+    )),
+    FG("Hangi Brans? (Secimlik)",Sel({value:kf.brans,onChange:function(ev){setKf(function(p){return Object.assign({},p,{brans:ev.target.value});});}},
+      e("option",{value:"herkes"},"Tum Branslar"),
+      ["Restoran","Kafe/Pastane","Fast Food","Bar/Meyhane","Otel","Kurumsal Mutfak"].map(function(b){return e("option",{key:b,value:b},b);})
+    )),
+    FG("Aciklama",Txa({rows:2,value:kf.acik,onChange:function(ev){setKf(function(p){return Object.assign({},p,{acik:ev.target.value});});}}))
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g"),Btn("Kaydet",function(){
+    if(!kf.urun.trim()){showT("Zorunlu!",true);return;}
+    var obj={id:"K"+Date.now(),urun:kf.urun,normalFiyat:parseFloat(kf.normal)||0,kampFiyat:parseFloat(kf.kamp)||0,kategori:kf.kat,brans:kf.brans,tarih:kf.tarih,aciklama:kf.acik};
+    sKs(ks.concat([obj]));
+    setKf({urun:"",normal:"",kamp:"",kat:"herkes",brans:"herkes",tarih:"",acik:""});
+    setMod(null);showT("Kampanya eklendi");
+  })]
+),
+
+// BORC GUNCELLE
+Modal("be","Borc Guncelle",
+  e("div",null,
+    FG("Musteri",Sel({value:bf.mid,onChange:function(ev){setBf(function(p){return Object.assign({},p,{mid:ev.target.value});});}},ms.map(function(m){return e("option",{key:m.id,value:m.id},m.ad);}))),
+    e("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+      FG("Toplam Bakiye (TL)",Inp({type:"number",placeholder:"0",value:bf.borc,onChange:function(ev){setBf(function(p){return Object.assign({},p,{borc:ev.target.value});});}})),
+      FG("Vade (Gun)",Inp({type:"number",placeholder:"30",value:bf.vade,onChange:function(ev){setBf(function(p){return Object.assign({},p,{vade:ev.target.value});});}}))
+    )
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g"),Btn("Kaydet",function(){var borc=parseFloat(bf.borc)||0;sMs(ms.map(function(x){return x.id===bf.mid?Object.assign({},x,{borc:borc,vade:parseInt(bf.vade)||30,borcTarihi:borc>0?today():""}):x;}));setMod(null);showT("Borc guncellendi");})]
+),
+
+// MUSTERI EKLE
+Modal("me","Yeni Musteri",
+  e("div",null,
+    FG("Adi *",Inp({placeholder:"Restoran adi",value:mf.ad,onChange:function(ev){setMf(function(p){return Object.assign({},p,{ad:ev.target.value});});}})),
+    FG("Adres *",Inp({placeholder:"Sokak/No",value:mf.adres,onChange:function(ev){setMf(function(p){return Object.assign({},p,{adres:ev.target.value});});}})),
+    e("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+      FG("Brans",Sel({value:mf.brans,onChange:function(ev){setMf(function(p){return Object.assign({},p,{brans:ev.target.value});})}},["Restoran","Kafe/Pastane","Fast Food","Bar/Meyhane","Otel","Kurumsal Mutfak"].map(function(b){return e("option",{key:b},b);}))),
+      FG("Tel",Inp({placeholder:"05XX...",value:mf.tel,onChange:function(ev){setMf(function(p){return Object.assign({},p,{tel:ev.target.value});});}}))
+    ),
+    FG("Konum (1-10)",Inp({type:"number",min:"1",max:"10",value:mf.konum,onChange:function(ev){setMf(function(p){return Object.assign({},p,{konum:ev.target.value});});}}))
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g"),Btn("Kaydet",function(){
+    if(!mf.ad.trim()||!mf.adres.trim()){showT("Zorunlu!",true);return;}
+    var obj={id:"M"+Date.now(),ad:mf.ad,adres:mf.adres,brans:mf.brans,bransDetay:"",tel:mf.tel,borc:0,vade:30,borcTarihi:"",konum:parseInt(mf.konum)||5,not:"",sonZiyaret:"",kayitTarih:today(),blocking:0,salesMTD:0,salesYTD:0,mtdFark:0,totalOverdue:0,focusNonFocus:"Non Focus"};
+    sMs(ms.concat([obj]));
+    setMf({ad:"",adres:"",brans:"Restoran",tel:"",konum:"5"});
+    setMod(null);showT("Musteri eklendi");
+  })]
+),
+
+// ROTAYA EKLE
+Modal("re","Rotaya Ekle",
+  e("div",null,
+    e("div",{style:{position:"relative",marginBottom:10}},
+      e("span",{style:{position:"absolute",left:11,top:"50%",transform:"translateY(-50%)",color:"#64748b"}},"?"),
+      e("input",{placeholder:"Musteri ara...",onChange:function(ev){setSq(ev.target.value);},style:Object.assign({},inp,{paddingLeft:34})})
+    ),
+    e("div",{style:{maxHeight:"48vh",overflowY:"auto"}},
+      ms.filter(function(m){return!ro.find(function(r){return r.mid===m.id;})&&(!sq||m.ad.toLowerCase().indexOf(sq.toLowerCase())>=0);}).map(function(m){
+        return MKart(m,function(){if(ro.length>=8){showT("Maks 8!",true);return;}sRo(ro.concat([{mid:m.id,du:"bekliyor"}]));setMod(null);showT("Eklendi");});
+      })
+    )
+  ),
+  [Btn("Kapat",function(){setMod(null);},"g",false,true)]
+),
+
+Modal("yedek","Yedek Kopyala",
+  e("div",null,
+    e("div",{style:{fontSize:13,color:"#64748b",marginBottom:12}},"Asagidaki metni kopyalayip Notes uygulamasina yapistiriniz:"),
+    e("textarea",{readOnly:true,value:yedekMetin,style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:10,padding:"10px",width:"100%",height:120,outline:"none",boxSizing:"border-box",resize:"none"}}),
+    e("button",{onClick:function(){navigator.clipboard.writeText(yedekMetin).then(function(){showT("Kopyalandi!");setMod(null);});},style:{marginTop:10,fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"none",cursor:"pointer",background:"#1e3a5f",color:"#fff",width:"100%"}},"Kopyala")
+  ),
+  [Btn("Kapat",function(){setMod(null);},"g")]
+),
+Modal("ice","Yedek Yukle",
+  e("div",null,
+    e("div",{style:{fontSize:13,color:"#64748b",marginBottom:12}},"Notes yedek metnini asagiya yapistiriniz:"),
+    e("textarea",{value:iceMetin,onChange:function(ev){setIceMetin(ev.target.value);},placeholder:"Yedek metnini buraya yapistirin...",style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:10,padding:"10px",width:"100%",height:150,outline:"none",boxSizing:"border-box",resize:"none"}}),
+    e("button",{onClick:function(){iceAktarMetin(iceMetin);},style:{marginTop:10,fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"none",cursor:"pointer",background:"#1e3a5f",color:"#fff",width:"100%"}},"Yukle")
+  ),
+  [Btn("Iptal",function(){setMod(null);},"g")]
+),
+mod==="borcyapistir"?e("div",{onClick:function(ev){if(ev.target===ev.currentTarget)setMod(null);},style:{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}},
+  e("div",{style:{background:"#fff",borderRadius:"20px 20px 0 0",padding:"20px 20px 36px",width:"100%",maxWidth:700,maxHeight:"88vh",overflowY:"auto"}},
+    e("div",{style:{width:40,height:4,background:"#e2e8f0",borderRadius:20,margin:"0 auto 18px"}}),
+    e("div",{style:{fontSize:18,fontWeight:800,marginBottom:16}},"Borc Guncelle (Excel Yapistir)"),
+    e("div",{style:{fontSize:13,color:"#64748b",marginBottom:8}},"Excel tablosunu kopyalayip asagiya yapistirin:"),
+    e("textarea",{value:iceMetin,onChange:function(ev){setIceMetin(ev.target.value);},placeholder:"Excel icerigini buraya yapistirin...",style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:12,padding:"10px",width:"100%",height:180,outline:"none",boxSizing:"border-box",resize:"none"}}),
+    e("div",{style:{fontSize:11,color:"#64748b",marginTop:6}},"Not: MUSTERI_NO ve TOTAL_BALANCE kolonlari gerekli (tab veya virgul ayracli)"),
+    e("div",{style:{display:"flex",gap:8,marginTop:12}},
+      e("button",{onClick:function(){setMod(null);},style:{fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"1.5px solid #e2e8f0",cursor:"pointer",background:"transparent",color:"#64748b"}},"Iptal"),
+      e("button",{onClick:function(){borcYapistir(iceMetin);},style:{fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"none",cursor:"pointer",background:"#1e3a5f",color:"#fff",flex:1}},"Guncelle")
+    )
+  )
+):null,
+tst?e("div",{style:{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:tst.err?"#c1121f":"#1e3a5f",color:"#fff",padding:"10px 20px",borderRadius:28,fontWeight:700,fontSize:13,zIndex:9999,boxShadow:"0 4px 16px rgba(0,0,0,.2)",whiteSpace:"nowrap",pointerEvents:"none"}},tst.msg):null
+```
+
+);
+}
+
+try{
+var container=document.getElementById(“root”);
+var root=ReactDOM.createRoot(container);
+root.render(React.createElement(App));
+}catch(e){
+document.getElementById(“root”).innerHTML=”<div style="padding:20px;background:#fff;color:red;font-size:14px"><b>HATA:</b><br>”+e.message+”</div>”;
 }
 </script>
 
