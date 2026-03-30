@@ -966,7 +966,11 @@ function render(){
 }
 
 // Başlat
+try {
 render();
+} catch(e) {
+document.getElementById("app").innerHTML = "<div style=\"padding:20px;color:red;background:#fff;font-size:14px;\"><b>HATA:</b><br>" + e.message + "<br><br>" + e.stack.replace(/\n/g,"<br>") + "</div>";
+}
 </script>
 
 </body>
