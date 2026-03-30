@@ -468,16 +468,16 @@ function borcYapistir(metin){
 if(!metin.trim()){showT(“Metin bos!”,true);return;}
 try{
 var satirlar=metin.trim().split(”\n”);
-if(satirlar.length<2){showT(“En az 2 satir gerekli!”,true);return;}
+if(satirlar.length<2){showT(“En az 2 satir!”,true);return;}
 var ayrac=satirlar[0].indexOf(”\t”)>=0?”\t”:”,”;
 var headers=satirlar[0].split(ayrac).map(function(h){return h.trim().replace(new RegExp(String.fromCharCode(34),“g”),””).toUpperCase();});
-var noIdx=headers.findIndex(function(h){return h.includes(“MUSTERI_NO”)||h.includes(“MUSTERI NO”);});
-var balIdx=headers.findIndex(function(h){return h.includes(“TOTAL_BALANCE”)||h.includes(“BALANCE”)||h.includes(“BAKIYE”);});
-var ovdIdx=headers.findIndex(function(h){return h.includes(“OVER_DUE”)||h.includes(“OVERDUE”)||h.includes(“GECIKME”);});
+var noIdx=headers.findIndex(function(h){return h.includes(“MUSTERI_NO”);});
+var balIdx=headers.findIndex(function(h){return h.includes(“TOTAL_BALANCE”);});
+var ovdIdx=headers.findIndex(function(h){return h.includes(“OVER_DUE”);});
 var blkIdx=headers.findIndex(function(h){return h.includes(“BLOCKING”);});
 var vadeIdx=headers.findIndex(function(h){return h.includes(“VADE”);});
-if(balIdx<0){showT(“Bakiye kolonu bulunamadi!”,true);return;}
-if(noIdx<0){showT(“Musteri no kolonu bulunamadi!”,true);return;}
+if(balIdx<0){showT(“TOTAL_BALANCE kolonu yok!”,true);return;}
+if(noIdx<0){showT(“MUSTERI_NO kolonu yok!”,true);return;}
 var updates={};
 for(var i=1;i<satirlar.length;i++){
 var cols=satirlar[i].split(ayrac);
@@ -493,7 +493,7 @@ if(musNo)updates[musNo]={borc:bal,totalOverdue:ovd,blocking:blk,vade:vade,borcTa
 var updated=0;
 var yeni=ms.map(function(m){var upd=updates[String(m.id)];if(upd){updated++;return Object.assign({},m,upd);}return m;});
 sMs(yeni);setMod(null);
-showT(updated+” musteri borcu guncellendi!”);
+showT(updated+” musteri guncellendi!”);
 }catch(err){showT(“Hata: “+err.message,true);}
 }
 
@@ -715,7 +715,8 @@ e("div",{style:{padding:14,maxWidth:700,margin:"0 auto"}},
       e("select",{value:fbo,onChange:function(ev){setFbo(ev.target.value);},style:{flex:1,fontFamily:"inherit",background:"#f8fafc",border:"1.5px solid #e2ddd4",borderRadius:9,color:"#1e293b",fontSize:13,padding:"7px 10px"}},
         e("option",{value:"hepsi"},"Tum Borclar"),e("option",{value:"gecikme"},"Gecikmis"),e("option",{value:"vadeli"},"Vadeli"),e("option",{value:"yok"},"Borcsuz")
       ),
-      Btn("+ Guncelle",function(){setBf({mid:ms[0]?ms[0].id:"",borc:"",vade:"30"});setMod("be");},null,true)
+      Btn("+ Guncelle",function(){setBf({mid:ms[0]?ms[0].id:"",borc:"",vade:"30"});setMod("be");},null,true),
+      Btn("Borc Yapistir",function(){setIceMetin("");setMod("borcyapistir");},null,true)
     ),
     e("div",{style:{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}},
       e("label",{style:{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",background:"#1e3a5f",color:"#fff",borderRadius:9,cursor:"pointer",fontSize:11,fontWeight:700}},
@@ -931,7 +932,7 @@ Modal("yedek","Yedek Kopyala",
 ),
 Modal("ice","Yedek Yukle",
   e("div",null,
-    e("div",{style:{fontSize:13,color:"#64748b",marginBottom:12}},"Notes yedek metnini asagiya yapistiriniz:"),
+    e("div",{style:{fontSize:13,color:"#64748b",marginBottom:12}},"Notlardaki yedek metnini asagiya yapistiriniz:"),
     e("textarea",{value:iceMetin,onChange:function(ev){setIceMetin(ev.target.value);},placeholder:"Yedek metnini buraya yapistirin...",style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:10,padding:"10px",width:"100%",height:150,outline:"none",boxSizing:"border-box",resize:"none"}}),
     e("button",{onClick:function(){iceAktarMetin(iceMetin);},style:{marginTop:10,fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"none",cursor:"pointer",background:"#1e3a5f",color:"#fff",width:"100%"}},"Yukle")
   ),
@@ -940,12 +941,12 @@ Modal("ice","Yedek Yukle",
 mod==="borcyapistir"?e("div",{onClick:function(ev){if(ev.target===ev.currentTarget)setMod(null);},style:{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}},
   e("div",{style:{background:"#fff",borderRadius:"20px 20px 0 0",padding:"20px 20px 36px",width:"100%",maxWidth:700,maxHeight:"88vh",overflowY:"auto"}},
     e("div",{style:{width:40,height:4,background:"#e2e8f0",borderRadius:20,margin:"0 auto 18px"}}),
-    e("div",{style:{fontSize:18,fontWeight:800,marginBottom:16}},"Borc Guncelle (Excel Yapistir)"),
+    e("div",{style:{fontSize:18,fontWeight:800,marginBottom:16}},"Borc Guncelle"),
     e("div",{style:{fontSize:13,color:"#64748b",marginBottom:8}},"Excel tablosunu kopyalayip asagiya yapistirin:"),
-    e("textarea",{value:iceMetin,onChange:function(ev){setIceMetin(ev.target.value);},placeholder:"Excel icerigini buraya yapistirin...",style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:12,padding:"10px",width:"100%",height:180,outline:"none",boxSizing:"border-box",resize:"none"}}),
-    e("div",{style:{fontSize:11,color:"#64748b",marginTop:6}},"Not: MUSTERI_NO ve TOTAL_BALANCE kolonlari gerekli (tab veya virgul ayracli)"),
+    e("textarea",{value:iceMetin,onChange:function(ev){setIceMetin(ev.target.value);},placeholder:"Excel icerigini yapistirin...",style:{fontFamily:"monospace",background:"#f8fafc",border:"1.5px solid #e2e8f0",borderRadius:9,color:"#1e293b",fontSize:12,padding:"10px",width:"100%",height:180,outline:"none",boxSizing:"border-box",resize:"none"}}),
+    e("div",{style:{fontSize:11,color:"#64748b",marginTop:6}},"Not: MUSTERI_NO ve TOTAL_BALANCE kolonlari gerekli"),
     e("div",{style:{display:"flex",gap:8,marginTop:12}},
-      e("button",{onClick:function(){setMod(null);},style:{fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"1.5px solid #e2e8f0",cursor:"pointer",background:"transparent",color:"#64748b"}},"Iptal"),
+      Btn("Iptal",function(){setMod(null);},"g"),
       e("button",{onClick:function(){borcYapistir(iceMetin);},style:{fontFamily:"inherit",fontWeight:700,fontSize:13,padding:"10px 18px",borderRadius:9,border:"none",cursor:"pointer",background:"#1e3a5f",color:"#fff",flex:1}},"Guncelle")
     )
   )
@@ -961,7 +962,7 @@ var container=document.getElementById(“root”);
 var root=ReactDOM.createRoot(container);
 root.render(React.createElement(App));
 }catch(e){
-document.getElementById(“root”).innerHTML=”<div style="padding:20px;background:#fff;color:red;font-size:14px"><b>HATA:</b><br>”+e.message+”</div>”;
+document.getElementById(“root”).innerHTML=”<div style="padding:20px;background:#fff;color:red"><b>HATA:</b><br>”+e.message+”</div>”;
 }
 </script>
 
