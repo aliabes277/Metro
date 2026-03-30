@@ -135,6 +135,7 @@ var S = {
     kf: {urun:"",normal:"",kamp:"",kat:"herkes",brans:"herkes",tarih:"",acik:""},
     mf: {ad:"",adres:"",brans:"Restoran",tel:"",konum:"5"},
     yedekMetin: "",
+    borcMetin: "",
     iceMetin: "",
     tst: null
 };
@@ -520,6 +521,9 @@ function renderBorc(){
     topBar.appendChild(sel);
     topBar.appendChild(btn("+ Guncelle",function(){S.bf={mid:S.ms[0]?S.ms[0].id:"",borc:"",vade:"30"};S.mod="be";render();},"btn btn-primary btn-small"));
     content.appendChild(topBar);
+    var borcBtn=btn("Excel Yapistir (Borc Guncelle)",function(){S.mod="borcyapistir";S.borcMetin="";render();},"btn btn-ghost btn-full");
+    borcBtn.style.marginBottom="10px";
+    content.appendChild(borcBtn);
     
     var filtered=S.ms.filter(function(m){
         if(S.fbo==="gecikme") return borcDurum(m)==="gecikme";
@@ -591,6 +595,50 @@ function otomatikRota(){
     havuz=havuz.slice(0,8);
     sRo(havuz.map(function(m){return {mid:m.id,du:"bekliyor"};}));
     showT(havuz.length+" musteri secildi");
+}
+
+function borcYapistir(metin){
+    if(!metin.trim()){showT("Metin bos!",true);return;}
+    try{
+        var satirlar=metin.trim().split("\n");
+        if(satirlar.length<2){showT("En az 2 satir gerekli!",true);return;}
+        
+        // Tab veya virgül ayracı
+        var ayrac=satirlar[0].indexOf("\t")>=0?"\t":",";
+        var headers=satirlar[0].split(ayrac).map(function(h){return h.trim().replace(/"/g,"").toUpperCase();});
+        
+        var noIdx=headers.findIndex(function(h){return h.includes("MUSTERI_NO")||h.includes("MUSTERI NO")||h==="NO"||h==="ID";});
+        var balIdx=headers.findIndex(function(h){return h.includes("TOTAL_BALANCE")||h.includes("BALANCE")||h.includes("BAKIYE")||h.includes("BORC");});
+        var ovdIdx=headers.findIndex(function(h){return h.includes("OVER_DUE")||h.includes("OVERDUE")||h.includes("GECIKME");});
+        var blkIdx=headers.findIndex(function(h){return h.includes("BLOCKING");});
+        var vadeIdx=headers.findIndex(function(h){return h.includes("VADE");});
+        
+        if(balIdx<0){showT("Bakiye kolonu bulunamadi! (TOTAL_BALANCE)",true);return;}
+        if(noIdx<0){showT("Musteri no kolonu bulunamadi! (MUSTERI_NO)",true);return;}
+        
+        var updates={};
+        for(var i=1;i<satirlar.length;i++){
+            var cols=satirlar[i].split(ayrac);
+            if(cols.length<2) continue;
+            var musNo=cols[noIdx].replace(/"/g,"").trim();
+            var bal=parseFloat(cols[balIdx].replace(/"/g,"").replace(/,/g,".").trim())||0;
+            var ovd=ovdIdx>=0?(parseFloat(cols[ovdIdx].replace(/"/g,"").replace(/,/g,".").trim())||0):0;
+            var blk=blkIdx>=0?(parseInt(cols[blkIdx].replace(/"/g,"").trim())||0):0;
+            var vadeRaw=vadeIdx>=0?cols[vadeIdx].replace(/"/g,"").trim():"30";
+            var vade=vadeRaw.startsWith("F")?30:(parseInt(vadeRaw)||30);
+            if(musNo) updates[musNo]={borc:bal,totalOverdue:ovd,blocking:blk,vade:vade,borcTarihi:bal>0?today():""};
+        }
+        
+        var updated=0;
+        var yeni=S.ms.map(function(m){
+            var upd=updates[String(m.id)];
+            if(upd){updated++;return Object.assign({},m,upd);}
+            return m;
+        });
+        sMs(yeni);
+        S.mod=null;
+        showT(updated+" musteri borcu guncellendi!");
+    }catch(err){showT("Hata: "+err.message,true);}
 }
 
 function disaAktar(){
@@ -865,6 +913,23 @@ function render(){
         },[btn("Kapat",function(){S.mod=null;render();},"btn btn-ghost btn-full")]));
     }
     
+    if(S.mod==="borcyapistir"){
+        app.appendChild(modal("Excel Borc Yapistir",function(){
+            var c=div("");
+            c.appendChild(div("f13 text-muted mb12",["Excel kopyaladiginiz borc tablosunu asagiya yapistirin:"]));\n
+            var ta=h("textarea",{className:"input",rows:"8",placeholder:"Excel kopyala yapistir..."},[]);\n
+            ta.oninput=function(ev){S.borcMetin=ev.target.value;};
+            c.appendChild(ta);
+            var info=div("f11 text-muted",["Not: MUSTERI_NO ve TOTAL_BALANCE sutunlari gerekli"]);
+            info.style.marginTop="8px";
+            c.appendChild(info);
+            var yb=btn("Guncelle",function(){borcYapistir(S.borcMetin);},"btn btn-primary btn-full");
+            yb.style.marginTop="10px";
+            c.appendChild(yb);
+            return c;
+        },[btn("Iptal",function(){S.mod=null;render();},"btn btn-ghost")]));
+    }
+    
     if(S.mod==="yedek"){
         app.appendChild(modal("Yedek Kopyala",function(){
             var c=div("");
@@ -881,7 +946,7 @@ function render(){
     if(S.mod==="ice"){
         app.appendChild(modal("Yedek Yukle",function(){
             var c=div("");
-            c.appendChild(div("f13 text-muted mb12",["Notes'taki yedek metnini asagiya yapistirin:"]));
+            c.appendChild(div("f13 text-muted mb12",["Notes yedek metnini asagiya yapistirin:"]));\n
             var ta=h("textarea",{className:"input",rows:"5",placeholder:"Yedek metnini buraya yapistirin..."},[]);
             ta.oninput=function(ev){S.iceMetin=ev.target.value;};
             c.appendChild(ta);
